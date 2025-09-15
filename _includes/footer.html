@@ -9,8 +9,13 @@
       </div>
       <div class="footer-section">
         <h4>{{ t.footer.legal_title }}</h4>
-        <a href="{{ '/privacy' | relative_url }}">{{ t.nav.privacy }}</a>
-        <a href="{{ '/terms' | relative_url }}">{{ t.nav.terms }}</a>
+        {%- if page.lang == 'en' -%}
+          <a href="{{ '/en/privacy' | relative_url }}">{{ t.nav.privacy }}</a>
+          <a href="{{ '/en/terms' | relative_url }}">{{ t.nav.terms }}</a>
+        {%- else -%}
+          <a href="{{ '/privacy' | relative_url }}">{{ t.nav.privacy }}</a>
+          <a href="{{ '/terms' | relative_url }}">{{ t.nav.terms }}</a>
+        {%- endif -%}
       </div>
       <div class="footer-section">
         <h4>{{ t.footer.apps_title }}</h4>
