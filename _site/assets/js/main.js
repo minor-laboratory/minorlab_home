@@ -10,6 +10,7 @@ class MinorLabSite {
   init() {
     console.log('MinorLabSite initializing...');
     this.setupThemeToggle();
+    this.setupLanguageDropdown();
     // 앱 로딩을 더 안정적으로 처리
     this.loadFamilyAppsWithRetry();
     this.setupSmoothScrolling();
@@ -75,6 +76,40 @@ class MinorLabSite {
     if (themeIcon) {
       themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
+  }
+
+  // 언어 드롭다운 설정
+  setupLanguageDropdown() {
+    const langSelector = document.getElementById('langSelector');
+    const langToggle = document.getElementById('langToggle');
+    const langDropdown = document.getElementById('langDropdown');
+
+    if (!langSelector || !langToggle || !langDropdown) return;
+
+    // 드롭다운 토글
+    langToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langSelector.classList.toggle('open');
+    });
+
+    // 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('click', (e) => {
+      if (!langSelector.contains(e.target)) {
+        langSelector.classList.remove('open');
+      }
+    });
+
+    // 언어 옵션 클릭 시 드롭다운 닫기
+    langDropdown.addEventListener('click', () => {
+      langSelector.classList.remove('open');
+    });
+
+    // ESC 키로 드롭다운 닫기
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        langSelector.classList.remove('open');
+      }
+    });
   }
 
   // Supabase API 호출 헬퍼

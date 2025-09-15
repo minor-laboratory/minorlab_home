@@ -16,22 +16,30 @@
           <button class="theme-toggle" id="themeToggle" aria-label="다크/라이트 모드 전환">
             <span class="theme-icon">🌙</span>
           </button>
-          <div class="lang-selector">
-            {%- for lang in site.languages -%}
-              {%- assign lang_page_url = page.url -%}
-              {%- if lang != site.default_lang -%}
-                {%- assign lang_page_url = '/' | append: lang | append: page.url -%}
-              {%- endif -%}
-              {%- if lang == site.default_lang and page.lang != site.default_lang -%}
-                {%- assign lang_prefix = '/' | append: page.lang -%}
-                {%- assign lang_page_url = page.url | replace: lang_prefix, '' -%}
-              {%- endif -%}
-              <a href="{{ lang_page_url | relative_url }}"
-                 class="lang-link {% if lang == page.lang %}active{% endif %}"
-                 data-lang="{{ lang }}">
-                {%- if lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
-              </a>
-            {%- endfor -%}
+          <div class="lang-selector" id="langSelector">
+            <button class="lang-toggle" id="langToggle">
+              <span class="current-lang">
+                {%- if page.lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
+              </span>
+              <span class="lang-arrow">▼</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              {%- for lang in site.languages -%}
+                {%- assign lang_page_url = page.url -%}
+                {%- if lang != site.default_lang -%}
+                  {%- assign lang_page_url = '/' | append: lang | append: page.url -%}
+                {%- endif -%}
+                {%- if lang == site.default_lang and page.lang != site.default_lang -%}
+                  {%- assign lang_prefix = '/' | append: page.lang -%}
+                  {%- assign lang_page_url = page.url | replace: lang_prefix, '' -%}
+                {%- endif -%}
+                <a href="{{ lang_page_url | relative_url }}"
+                   class="lang-option {% if lang == page.lang %}active{% endif %}"
+                   data-lang="{{ lang }}">
+                  {%- if lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
+                </a>
+              {%- endfor -%}
+            </div>
           </div>
         </div>
       </nav>

@@ -56,11 +56,17 @@
           <button class="theme-toggle" id="themeToggle" aria-label="다크/라이트 모드 전환">
             <span class="theme-icon">🌙</span>
           </button>
-          <div class="lang-selector"><a href="/terms/"
-                 class="lang-link active"
-                 data-lang="ko">한국어</a><a href="/en/terms/"
-                 class="lang-link "
-                 data-lang="en">English</a></div>
+          <div class="lang-selector" id="langSelector">
+            <button class="lang-toggle" id="langToggle">
+              <span class="current-lang">한국어</span>
+              <span class="lang-arrow">▼</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown"><a href="/terms/"
+                   class="lang-option active"
+                   data-lang="ko">한국어</a><a href="/en/terms/"
+                   class="lang-option "
+                   data-lang="en">English</a></div>
+          </div>
         </div>
       </nav>
     </div>
