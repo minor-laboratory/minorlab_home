@@ -102,19 +102,23 @@ class MinorLabSite {
 
       if (apps && apps.length > 0) {
         console.log('Rendering apps for language:', document.documentElement.lang);
+        console.log('About to call renderApps with apps:', apps);
+
         this.renderApps(apps);
+
+        console.log('renderApps call completed');
 
         const loadingEl = document.getElementById('apps-loading');
         const contentEl = document.getElementById('apps-content');
 
         console.log('Before hiding loading - loading element:', loadingEl);
         console.log('Before showing content - content element:', contentEl);
-        console.log('Content element classes before:', contentEl.className);
+        console.log('Content element classes before:', contentEl ? contentEl.className : 'null');
 
-        loadingEl.classList.add('hidden');
-        contentEl.classList.remove('hidden');
+        if (loadingEl) loadingEl.classList.add('hidden');
+        if (contentEl) contentEl.classList.remove('hidden');
 
-        console.log('Content element classes after:', contentEl.className);
+        console.log('Content element classes after:', contentEl ? contentEl.className : 'null');
         console.log('Apps rendered successfully and visibility toggled');
       } else {
         throw new Error('No apps found');
@@ -136,23 +140,35 @@ class MinorLabSite {
 
   // 앱 목록 렌더링
   renderApps(apps) {
-    console.log('renderApps called with:', apps);
-    const appsContainer = document.getElementById('apps-content');
-    const currentLang = document.documentElement.lang || 'ko';
+    try {
+      console.log('renderApps called with:', apps);
+      const appsContainer = document.getElementById('apps-content');
+      const currentLang = document.documentElement.lang || 'ko';
 
-    console.log('Apps container:', appsContainer);
-    console.log('Current language:', currentLang);
+      console.log('Apps container:', appsContainer);
+      console.log('Current language:', currentLang);
 
-    if (!appsContainer) {
-      console.error('Apps container not found!');
-      return;
+      if (!appsContainer) {
+        console.error('Apps container not found!');
+        return;
+      }
+
+      console.log('Starting to generate HTML for each app...');
+      const html = apps.map((app, index) => {
+        console.log(`Processing app ${index + 1}:`, app.name);
+        return this.createAppCard(app, currentLang);
+      }).join('');
+
+      console.log('Generated HTML length:', html.length);
+      console.log('Generated HTML preview:', html.substring(0, 200) + '...');
+
+      appsContainer.innerHTML = html;
+      console.log('HTML set successfully');
+      console.log('Container content length:', appsContainer.innerHTML.length);
+    } catch (error) {
+      console.error('Error in renderApps:', error);
+      console.error('Error stack:', error.stack);
     }
-
-    const html = apps.map(app => this.createAppCard(app, currentLang)).join('');
-    console.log('Generated HTML:', html);
-
-    appsContainer.innerHTML = html;
-    console.log('HTML set, container content:', appsContainer.innerHTML);
   }
 
   // 앱 카드 생성
