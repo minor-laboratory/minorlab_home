@@ -10,12 +10,34 @@ class MinorLabSite {
   init() {
     console.log('MinorLabSite initializing...');
     this.setupThemeToggle();
-    // 앱 로딩을 지연시켜 DOM이 완전히 로드된 후 실행
-    setTimeout(() => {
-      this.loadFamilyApps();
-    }, 1000);
+    // 앱 로딩을 더 안정적으로 처리
+    this.loadFamilyAppsWithRetry();
     this.setupSmoothScrolling();
     this.setupAnimations();
+  }
+
+  // 재시도가 포함된 앱 로딩
+  loadFamilyAppsWithRetry() {
+    // 즉시 시도
+    this.loadFamilyApps();
+
+    // 1초 후 재시도 (API 실패 시를 위해)
+    setTimeout(() => {
+      const appsContent = document.getElementById('apps-content');
+      if (appsContent && appsContent.classList.contains('hidden')) {
+        console.log('Apps still hidden, retrying...');
+        this.loadFamilyApps();
+      }
+    }, 1000);
+
+    // 3초 후 마지막 시도 (강제 표시)
+    setTimeout(() => {
+      const appsContent = document.getElementById('apps-content');
+      if (appsContent && appsContent.classList.contains('hidden')) {
+        console.log('Force showing default apps after 3 seconds');
+        this.showDefaultApps();
+      }
+    }, 3000);
   }
 
   // 테마 토글 설정
@@ -81,9 +103,19 @@ class MinorLabSite {
       if (apps && apps.length > 0) {
         console.log('Rendering apps for language:', document.documentElement.lang);
         this.renderApps(apps);
-        document.getElementById('apps-loading').classList.add('hidden');
-        document.getElementById('apps-content').classList.remove('hidden');
-        console.log('Apps rendered successfully');
+
+        const loadingEl = document.getElementById('apps-loading');
+        const contentEl = document.getElementById('apps-content');
+
+        console.log('Before hiding loading - loading element:', loadingEl);
+        console.log('Before showing content - content element:', contentEl);
+        console.log('Content element classes before:', contentEl.className);
+
+        loadingEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+
+        console.log('Content element classes after:', contentEl.className);
+        console.log('Apps rendered successfully and visibility toggled');
       } else {
         throw new Error('No apps found');
       }
@@ -104,20 +136,37 @@ class MinorLabSite {
 
   // 앱 목록 렌더링
   renderApps(apps) {
+    console.log('renderApps called with:', apps);
     const appsContainer = document.getElementById('apps-content');
     const currentLang = document.documentElement.lang || 'ko';
 
-    appsContainer.innerHTML = apps.map(app => this.createAppCard(app, currentLang)).join('');
+    console.log('Apps container:', appsContainer);
+    console.log('Current language:', currentLang);
+
+    if (!appsContainer) {
+      console.error('Apps container not found!');
+      return;
+    }
+
+    const html = apps.map(app => this.createAppCard(app, currentLang)).join('');
+    console.log('Generated HTML:', html);
+
+    appsContainer.innerHTML = html;
+    console.log('HTML set, container content:', appsContainer.innerHTML);
   }
 
   // 앱 카드 생성
   createAppCard(app, lang = 'ko') {
+    console.log('Creating app card for:', app.name, 'in language:', lang);
+
     const statusClass = this.getStatusClass(app);
     const statusText = this.getStatusText(app, lang);
     const appIcon = this.getAppIcon(app);
     const appDescription = this.getAppDescription(app, lang);
 
-    return `
+    console.log('Card details:', { statusClass, statusText, appIcon, appDescription });
+
+    const cardHtml = `
       <div class="app-card fade-in">
         <div class="app-icon">${appIcon}</div>
         <h3>${app.name}</h3>
@@ -128,32 +177,38 @@ class MinorLabSite {
         ${this.createAppLinks(app)}
       </div>
     `;
+
+    console.log('Generated card HTML:', cardHtml);
+    return cardHtml;
   }
 
   // 앱 설명 가져오기
   getAppDescription(app, lang = 'ko') {
+    console.log('getAppDescription called with app:', app.name, 'lang:', lang);
+
     if (app.description) {
+      console.log('Using app.description:', app.description);
       return app.description;
     }
 
-    // 기본 설명
-    const descriptions = {
-      ko: {
-        '북랩': '독서 관리와 기록을 위한 스마트한 앱',
-        '루티': '생활 습관 개선으로 건강하게',
-        'booklab': '독서 관리와 기록을 위한 스마트한 앱',
-        'rooty': '생활 습관 개선으로 건강하게'
-      },
-      en: {
-        '북랩': 'Smart app for reading management and tracking',
-        '루티': 'Healthy living through habit improvement',
-        'booklab': 'Smart app for reading management and tracking',
-        'rooty': 'Healthy living through habit improvement'
+    // 기본 설명 - 더 간단한 로직
+    if (lang === 'en') {
+      if (app.name === '북랩' || app.target === 'books') {
+        return 'Smart app for reading management and tracking';
+      } else if (app.name === '루티' || app.target === 'rooty') {
+        return 'Healthy living through habit improvement';
       }
-    };
+    } else {
+      // 한국어 기본값
+      if (app.name === '북랩' || app.target === 'books') {
+        return '독서 관리와 기록을 위한 스마트한 앱';
+      } else if (app.name === '루티' || app.target === 'rooty') {
+        return '생활 습관 개선으로 건강하게';
+      }
+    }
 
-    const appKey = app.name.toLowerCase();
-    return descriptions[lang][appKey] || descriptions[lang][app.target] || descriptions.ko[appKey] || '혁신적인 앱 서비스';
+    console.log('Using fallback description for:', app.name);
+    return lang === 'en' ? 'Innovative app service' : '혁신적인 앱 서비스';
   }
 
   // 앱 아이콘 결정
