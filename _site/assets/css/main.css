@@ -8,60 +8,60 @@
     box-sizing: border-box;
 }
 
-/* CSS Variables for Theming - Coderon-inspired Modern Palette */
+/* CSS Variables for Theming - Coderon Theme Palette */
 :root {
-    /* Light Theme - Refined Modern Palette */
+    /* Light Theme - Coderon Colors */
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
-    --bg-accent: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-    --bg-accent-solid: #f1f5f9;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --text-muted: #94a3b8;
-    --text-accent: #1e293b;
-    --border-color: #e2e8f0;
-    --border-light: #f1f5f9;
-    --accent-color: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-    --accent-solid: #3b82f6;
-    --accent-hover: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    --bg-secondary: #f3f3f4;
+    --bg-tertiary: #eeeeef;
+    --bg-accent: linear-gradient(135deg, #ae00ee 0%, #60b0ba 100%);
+    --bg-accent-solid: #f3f3f4;
+    --text-primary: #10141f;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --text-accent: #10141f;
+    --border-color: #e5e7eb;
+    --border-light: #f3f4f6;
+    --accent-color: linear-gradient(135deg, #ae00ee 0%, #60b0ba 100%);
+    --accent-solid: #ae00ee;
+    --accent-hover: linear-gradient(135deg, #9900cc 0%, #4a8a94 100%);
     --success-color: #10b981;
     --warning-color: #f59e0b;
-    --info-color: #3b82f6;
+    --info-color: #60b0ba;
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --glow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+    --glow: 0 0 0 1px rgba(174, 0, 238, 0.1);
     --radius: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
 }
 
 [data-theme="dark"] {
-    /* Dark Theme - Coderon-inspired Modern Dark */
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --bg-accent: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-    --bg-accent-solid: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-muted: #64748b;
+    /* Dark Theme - Coderon Colors */
+    --bg-primary: #10141f;
+    --bg-secondary: #1a1e2e;
+    --bg-tertiary: #242938;
+    --bg-accent: linear-gradient(135deg, #d60067 0%, #60b0ba 100%);
+    --bg-accent-solid: #1a1e2e;
+    --text-primary: #ffffff;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
     --text-accent: #ffffff;
-    --border-color: #334155;
-    --border-light: #475569;
-    --accent-color: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-    --accent-solid: #3b82f6;
-    --accent-hover: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    --border-color: #374151;
+    --border-light: #4b5563;
+    --accent-color: linear-gradient(135deg, #d60067 0%, #60b0ba 100%);
+    --accent-solid: #d60067;
+    --accent-hover: linear-gradient(135deg, #b8005a 0%, #4a8a94 100%);
     --success-color: #10b981;
     --warning-color: #f59e0b;
-    --info-color: #3b82f6;
+    --info-color: #60b0ba;
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-    --glow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+    --glow: 0 0 0 1px rgba(214, 0, 103, 0.2);
 }
 
 /* Base Styles */
@@ -409,15 +409,15 @@ section {
 }
 
 .status-upcoming {
-    background-color: rgba(59, 130, 246, 0.1);
+    background-color: rgba(96, 176, 186, 0.1);
     color: var(--info-color);
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(96, 176, 186, 0.2);
 }
 
 .status-planning {
-    background-color: rgba(245, 158, 11, 0.1);
-    color: var(--warning-color);
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    background-color: rgba(174, 0, 238, 0.1);
+    color: var(--accent-solid);
+    border: 1px solid rgba(174, 0, 238, 0.2);
 }
 
 /* App Links */
