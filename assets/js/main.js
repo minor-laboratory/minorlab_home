@@ -69,13 +69,17 @@ class MinorLabSite {
 
   // 패밀리 앱 로드
   async loadFamilyApps() {
+    console.log('Starting to load family apps...');
     try {
       const apps = await this.apiCall('/family_apps?is_active=eq.true&order=sort_order.asc');
+      console.log('Loaded apps:', apps);
 
       if (apps && apps.length > 0) {
+        console.log('Rendering apps for language:', document.documentElement.lang);
         this.renderApps(apps);
         document.getElementById('apps-loading').classList.add('hidden');
         document.getElementById('apps-content').classList.remove('hidden');
+        console.log('Apps rendered successfully');
       } else {
         throw new Error('No apps found');
       }
@@ -99,18 +103,45 @@ class MinorLabSite {
     const statusClass = this.getStatusClass(app);
     const statusText = this.getStatusText(app, lang);
     const appIcon = this.getAppIcon(app);
+    const appDescription = this.getAppDescription(app, lang);
 
     return `
       <div class="app-card fade-in">
         <div class="app-icon">${appIcon}</div>
         <h3>${app.name}</h3>
-        <p>${app.description || ''}</p>
+        <p>${appDescription}</p>
         <div class="app-status">
           <span class="status-badge ${statusClass}">${statusText}</span>
         </div>
         ${this.createAppLinks(app)}
       </div>
     `;
+  }
+
+  // 앱 설명 가져오기
+  getAppDescription(app, lang = 'ko') {
+    if (app.description) {
+      return app.description;
+    }
+
+    // 기본 설명
+    const descriptions = {
+      ko: {
+        '북랩': '독서 관리와 기록을 위한 스마트한 앱',
+        '루티': '생활 습관 개선으로 건강하게',
+        'booklab': '독서 관리와 기록을 위한 스마트한 앱',
+        'rooty': '생활 습관 개선으로 건강하게'
+      },
+      en: {
+        '북랩': 'Smart app for reading management and tracking',
+        '루티': 'Healthy living through habit improvement',
+        'booklab': 'Smart app for reading management and tracking',
+        'rooty': 'Healthy living through habit improvement'
+      }
+    };
+
+    const appKey = app.name.toLowerCase();
+    return descriptions[lang][appKey] || descriptions[lang][app.target] || descriptions.ko[appKey] || '혁신적인 앱 서비스';
   }
 
   // 앱 아이콘 결정
@@ -135,10 +166,12 @@ class MinorLabSite {
 
   // 상태 클래스 결정
   getStatusClass(app) {
-    if (app.ios_url || app.android_url) {
+    if (app.ios_url || app.android_url || app.web_url) {
       return 'status-live';
     } else if (app.target === 'rooty' || app.name.includes('루티')) {
       return 'status-upcoming';
+    } else if (app.target === 'books' || app.name.includes('북랩')) {
+      return 'status-upcoming'; // 북랩은 출시 예정으로 변경
     } else {
       return 'status-planning';
     }
