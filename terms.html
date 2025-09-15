@@ -11,9 +11,9 @@ description: "MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 �
   <div class="container">
     <h1>{{ t.nav.terms }}</h1>
 
-    <div id="terms-loading" class="text-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-      <p class="mt-4 text-gray-600">이용약관을 불러오는 중...</p>
+    <div id="terms-loading" class="policy-loading">
+      <div class="spinner animate-spin"></div>
+      <p>이용약관을 불러오는 중...</p>
     </div>
 
     <div id="terms-content" class="hidden">
@@ -22,32 +22,47 @@ description: "MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 �
         <p><strong>{{ t.privacy.effective_date }}:</strong> <span id="terms-effective"></span></p>
       </div>
 
-      <div id="terms-body" class="policy-content mt-6">
+      <div id="terms-body" class="policy-content">
         <!-- 여기에 동적으로 약관 내용이 로드됩니다 -->
       </div>
     </div>
 
-    <div id="terms-error" class="hidden">
-      <div class="text-center py-12">
-        <div class="text-red-600">
-          <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
-          </svg>
-          <h3 class="text-lg font-medium">이용약관을 불러올 수 없습니다</h3>
-          <p class="mt-2 text-gray-600">잠시 후 다시 시도해주세요.</p>
-        </div>
-      </div>
+    <div id="terms-error" class="policy-error hidden">
+      <svg class="error-icon" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+      </svg>
+      <h3>이용약관을 불러올 수 없습니다</h3>
+      <p>잠시 후 다시 시도해주세요.</p>
     </div>
   </div>
 </section>
 
 <script>
-// 이용약관 로드
+// Supabase 연결 및 이용약관 로드
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const policy = await window.MinorLabAPI.loadPolicy('terms');
+    // Supabase 클라이언트 초기화
+    const SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
 
-    if (policy) {
+    // 이용약관 조회
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/policies?type=eq.terms&is_active=eq.true&order=version.desc&limit=1`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch policy');
+    }
+
+    const policies = await response.json();
+
+    if (policies && policies.length > 0) {
+      const policy = policies[0];
+
       // 약관 메타 정보 업데이트
       document.getElementById('terms-updated').textContent =
         new Date(policy.updated_at).toLocaleDateString('ko-KR');
@@ -59,9 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (policy.content_format === 'html') {
         termsBody.innerHTML = policy.content;
       } else if (policy.content_format === 'markdown') {
-        termsBody.innerHTML = window.MinorLabAPI.convertMarkdownToHtml(policy.content);
+        // 마크다운을 HTML로 변환 (간단한 변환)
+        termsBody.innerHTML = convertMarkdownToHtml(policy.content);
       } else {
-        termsBody.innerHTML = `<pre class="whitespace-pre-wrap">${policy.content}</pre>`;
+        termsBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${policy.content}</pre>`;
       }
 
       // 로딩 숨기고 내용 표시
@@ -80,4 +96,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('terms-error').classList.remove('hidden');
   }
 });
+
+// 간단한 마크다운 → HTML 변환
+function convertMarkdownToHtml(markdown) {
+  return markdown
+    // 헤딩
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    // 굵은 글씨
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // 기울임
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // 목록
+    .replace(/^\- (.*$)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    // 줄바꿈
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[uh])/gm, '<p>')
+    .replace(/(?<![>])$/gm, '</p>');
+}
 </script>

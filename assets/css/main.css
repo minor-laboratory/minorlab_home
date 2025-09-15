@@ -627,6 +627,52 @@ section {
     }
 }
 
+/* Policy Page Loading and Error States */
+.policy-loading {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.policy-loading .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--accent-solid);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+}
+
+.policy-loading p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.policy-error {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--warning-color);
+}
+
+.policy-error .error-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.policy-error h3 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.policy-error p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
 /* Policy Page Styles */
 .privacy-policy .policy-content {
     line-height: 1.8;
