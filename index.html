@@ -22,20 +22,29 @@ description: "MinorLab - 습관이 지금의 나를 만듭니다. 습관 관리�
 <section id="apps" class="apps">
   <div class="container">
     <h2>{{ t.apps.title }}</h2>
-
-    <div id="apps-loading" class="text-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-      <p class="mt-4 text-gray-600">앱 정보를 불러오는 중...</p>
-    </div>
-
-    <div id="apps-content" class="apps-grid hidden">
-      <!-- 여기에 동적으로 앱 정보가 로드됩니다 -->
-    </div>
-
-    <div id="apps-error" class="hidden">
-      <div class="text-center py-12">
-        <div class="text-gray-600">
-          <p>앱 정보를 불러올 수 없습니다.</p>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">📚</div>
+        <h3>{{ t.apps.booklab.name }}</h3>
+        <p>{{ t.apps.booklab.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-live">{{ t.apps.booklab.status }}</span>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🎯</div>
+        <h3>{{ t.apps.routine.name }}</h3>
+        <p>{{ t.apps.routine.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-upcoming">{{ t.apps.routine.status }}</span>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">💭</div>
+        <h3>{{ t.apps.dreamteller.name }}</h3>
+        <p>{{ t.apps.dreamteller.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-planning">{{ t.apps.dreamteller.status }}</span>
         </div>
       </div>
     </div>
