@@ -86,6 +86,9 @@ class MinorLabSite {
 
     if (!langSelector || !langToggle || !langDropdown) return;
 
+    // 저장된 언어 기본설정 확인 및 리디렉션
+    this.checkSavedLanguagePreference();
+
     // 드롭다운 토글
     langToggle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -99,9 +102,23 @@ class MinorLabSite {
       }
     });
 
-    // 언어 옵션 클릭 시 드롭다운 닫기
-    langDropdown.addEventListener('click', () => {
-      langSelector.classList.remove('open');
+    // 언어 옵션 클릭 이벤트 설정
+    const langOptions = langDropdown.querySelectorAll('.lang-option');
+    langOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        const selectedLang = option.getAttribute('data-lang');
+        const targetUrl = option.getAttribute('href');
+
+        // 언어 선택 저장
+        localStorage.setItem('preferredLanguage', selectedLang);
+
+        // 페이지 이동
+        window.location.href = targetUrl;
+
+        // 드롭다운 닫기
+        langSelector.classList.remove('open');
+      });
     });
 
     // ESC 키로 드롭다운 닫기
@@ -110,6 +127,44 @@ class MinorLabSite {
         langSelector.classList.remove('open');
       }
     });
+  }
+
+  // 저장된 언어 기본설정 확인
+  checkSavedLanguagePreference() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    const currentLang = document.documentElement.lang || 'ko';
+
+    // 저장된 언어가 있고 현재 언어와 다르면 리디렉션
+    if (savedLang && savedLang !== currentLang) {
+      const currentPath = window.location.pathname;
+      let targetPath = '';
+
+      if (savedLang === 'ko') {
+        // 한국어로 전환 - /en 제거
+        if (currentPath.startsWith('/en')) {
+          targetPath = currentPath.replace('/en', '') || '/';
+        }
+      } else if (savedLang === 'en') {
+        // 영어로 전환 - /en 추가
+        if (!currentPath.startsWith('/en')) {
+          targetPath = '/en' + currentPath;
+        }
+      }
+
+      // 리디렉션 필요한 경우
+      if (targetPath && targetPath !== currentPath) {
+        console.log(`언어 기본설정 복원: ${currentLang} → ${savedLang}, ${currentPath} → ${targetPath}`);
+        window.location.replace(targetPath);
+        return true;
+      }
+    }
+
+    // 현재 언어를 기본설정으로 저장 (첫 방문 시)
+    if (!savedLang) {
+      localStorage.setItem('preferredLanguage', currentLang);
+    }
+
+    return false;
   }
 
   // Supabase API 호출 헬퍼

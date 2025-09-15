@@ -107,22 +107,67 @@
 </section>
 
 <script>
-// Supabase connection and privacy policy loading
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // Initialize Supabase client
-    const SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
+// Policy caching system
+class PolicyCache {
+  constructor() {
+    this.CACHE_PREFIX = 'minorlab_policy_';
+    this.CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+    this.SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
+    this.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
+  }
 
-    // Determine country code based on user language
-    const userLang = document.documentElement.lang || 'en';
-    const countryCode = userLang === 'ko' ? 'KR' : 'US';
+  getCacheKey(type, country) {
+    return `${this.CACHE_PREFIX}${type}_${country}`;
+  }
 
-    // Query privacy policy (by country)
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/policies?type=eq.privacy&country=eq.${countryCode}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
+  loadFromCache(type, country) {
+    try {
+      const cacheKey = this.getCacheKey(type, country);
+      const cached = localStorage.getItem(cacheKey);
+
+      if (!cached) return null;
+
+      const data = JSON.parse(cached);
+      const now = Date.now();
+
+      if (now - data.timestamp > this.CACHE_DURATION) {
+        this.clearCache(type, country);
+        return null;
+      }
+
+      console.log(`🎯 Policy cache hit: ${type} (${country})`);
+      return data.policy;
+    } catch (e) {
+      console.warn('Cache load failed:', e);
+      return null;
+    }
+  }
+
+  saveToCache(type, country, policy) {
+    try {
+      const cacheKey = this.getCacheKey(type, country);
+      const data = {
+        policy: policy,
+        timestamp: Date.now()
+      };
+
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      console.log(`💾 Policy cache saved: ${type} (${country})`);
+    } catch (e) {
+      console.warn('Cache save failed:', e);
+    }
+  }
+
+  clearCache(type, country) {
+    const cacheKey = this.getCacheKey(type, country);
+    localStorage.removeItem(cacheKey);
+  }
+
+  async loadFromServer(type, country) {
+    const response = await fetch(`${this.SUPABASE_URL}/rest/v1/policies?type=eq.${type}&country=eq.${country}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
       headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': this.SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${this.SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json'
       }
     });
@@ -132,31 +177,89 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const policies = await response.json();
+    return policies && policies.length > 0 ? policies[0] : null;
+  }
 
-    if (policies && policies.length > 0) {
-      const policy = policies[0];
+  async loadPolicy(type, country) {
+    let policy = this.loadFromCache(type, country);
 
-      // Update policy meta information
-      document.getElementById('policy-updated').textContent =
-        new Date(policy.updated_at).toLocaleDateString('en-US');
-      document.getElementById('policy-effective').textContent =
-        new Date(policy.effective_at).toLocaleDateString('en-US');
+    if (policy) {
+      this.checkForUpdates(type, country, policy);
+      return policy;
+    }
 
-      // Display policy content
-      const policyBody = document.getElementById('policy-body');
+    console.log(`🌐 Loading policy from server: ${type} (${country})`);
+    policy = await this.loadFromServer(type, country);
+
+    if (policy) {
+      this.saveToCache(type, country, policy);
+    }
+
+    return policy;
+  }
+
+  async checkForUpdates(type, country, currentPolicy) {
+    try {
+      const latestPolicy = await this.loadFromServer(type, country);
+
+      if (latestPolicy && this.hasChanged(currentPolicy, latestPolicy)) {
+        console.log(`🔄 Policy update found: ${type} (${country})`);
+        this.saveToCache(type, country, latestPolicy);
+        this.updateUI(latestPolicy);
+      }
+    } catch (e) {
+      console.warn('Background update check failed:', e);
+    }
+  }
+
+  hasChanged(oldPolicy, newPolicy) {
+    return oldPolicy.id !== newPolicy.id ||
+           oldPolicy.updated_at !== newPolicy.updated_at ||
+           oldPolicy.version !== newPolicy.version;
+  }
+
+  updateUI(policy) {
+    const policyUpdated = document.getElementById('policy-updated');
+    const policyEffective = document.getElementById('policy-effective');
+
+    if (policyUpdated) {
+      policyUpdated.textContent = new Date(policy.updated_at).toLocaleDateString('en-US');
+    }
+    if (policyEffective) {
+      policyEffective.textContent = new Date(policy.effective_at).toLocaleDateString('en-US');
+    }
+
+    const policyBody = document.getElementById('policy-body');
+    if (policyBody) {
       if (policy.content_format === 'html') {
         policyBody.innerHTML = policy.content;
       } else if (policy.content_format === 'markdown') {
-        // Convert markdown to HTML (simple conversion)
         policyBody.innerHTML = convertMarkdownToHtml(policy.content);
       } else {
         policyBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${policy.content}</pre>`;
       }
+    }
 
-      // Hide loading and show content
-      document.getElementById('policy-loading').classList.add('hidden');
-      document.getElementById('policy-content').classList.remove('hidden');
+    const loading = document.getElementById('policy-loading');
+    const content = document.getElementById('policy-content');
 
+    if (loading) loading.classList.add('hidden');
+    if (content) content.classList.remove('hidden');
+  }
+}
+
+// Main function to load privacy policy
+document.addEventListener('DOMContentLoaded', async () => {
+  const cache = new PolicyCache();
+
+  try {
+    const userLang = document.documentElement.lang || 'en';
+    const countryCode = userLang === 'ko' ? 'KR' : 'US';
+
+    const policy = await cache.loadPolicy('privacy', countryCode);
+
+    if (policy) {
+      cache.updateUI(policy);
     } else {
       throw new Error('No active privacy policy found');
     }
@@ -164,7 +267,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error('Error loading privacy policy:', error);
 
-    // Show error state
     document.getElementById('policy-loading').classList.add('hidden');
     document.getElementById('policy-error').classList.remove('hidden');
   }
@@ -198,10 +300,8 @@ function convertMarkdownToHtml(markdown) {
         <p>Habits shape you</p>
       </div>
       <div class="footer-section">
-        <h4>Legal</h4>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
-      </div>
+        <h4>Legal</h4><a href="/en/privacy">Privacy Policy</a>
+          <a href="/en/terms">Terms of Service</a></div>
       <div class="footer-section">
         <h4>Apps</h4>
         <a href="/#apps">BookLab</a>
