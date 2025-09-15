@@ -90,7 +90,6 @@ body {
 /* Header */
 .header {
     background-color: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid var(--border-light);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -633,6 +632,14 @@ section {
     line-height: 1.8;
 }
 
+.privacy-policy h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+}
+
 .privacy-policy h2 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -660,35 +667,44 @@ section {
 
 .privacy-policy .policy-meta {
     background-color: var(--bg-secondary);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    margin-bottom: 3rem;
 }
 
 .privacy-policy .contact-info {
     background-color: var(--bg-secondary);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: var(--radius);
 }
 
 .delegation-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--bg-primary);
 }
 
 .delegation-table th,
 .delegation-table td {
-    border: 1px solid var(--border-color);
-    padding: 0.75rem;
+    padding: 1rem 1.25rem;
     text-align: left;
+    border-bottom: 1px solid var(--bg-secondary);
 }
 
 .delegation-table th {
     background-color: var(--bg-secondary);
     font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    color: var(--text-secondary);
+}
+
+.delegation-table tr:last-child td {
+    border-bottom: none;
 }
 
 /* Responsive Design */
