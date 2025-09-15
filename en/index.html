@@ -1,0 +1,78 @@
+---
+layout: default
+lang: en
+title: "Home"
+description: "MinorLab - Habits shape you. A company developing apps and services for habit management and personal growth."
+---
+
+{%- assign t = site.data.translations[page.lang] -%}
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+  <div class="container">
+    <h2>{{ t.hero.title }}</h2>
+    <p>{{ t.hero.description }}</p>
+    <div class="hero-buttons">
+      <a href="#apps" class="btn btn-primary">{{ t.hero.cta }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- Apps Section -->
+<section id="apps" class="apps">
+  <div class="container">
+    <h2>{{ t.apps.title }}</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">📚</div>
+        <h3>{{ t.apps.booklab.name }}</h3>
+        <p>{{ t.apps.booklab.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-live">{{ t.apps.booklab.status }}</span>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🎯</div>
+        <h3>{{ t.apps.routine.name }}</h3>
+        <p>{{ t.apps.routine.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-upcoming">{{ t.apps.routine.status }}</span>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">💭</div>
+        <h3>{{ t.apps.dreamteller.name }}</h3>
+        <p>{{ t.apps.dreamteller.description }}</p>
+        <div class="app-status">
+          <span class="status-badge status-planning">{{ t.apps.dreamteller.status }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+  <div class="container">
+    <h2>{{ t.about.title }}</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>{{ t.about.description }}</p>
+        <p>{{ t.about.mission }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+  <div class="container">
+    <h2>{{ t.contact.title }}</h2>
+    <div class="contact-content">
+      <div class="contact-info">
+        <p>{{ t.contact.email }}: {{ site.email }}</p>
+        <p>{{ t.contact.business }}: {{ site.email }}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+{%- assign t = site.data.translations[page.lang] | default: site.data.translations[site.default_lang] -%}
+
+<header class="header">
+  <div class="container">
+    <div class="nav">
+      <div class="logo">
+        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+        <span class="tagline">{{ t.site.tagline }}</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="{{ '/' | relative_url }}#home">{{ t.nav.home }}</a>
+        <a href="{{ '/' | relative_url }}#apps">{{ t.nav.apps }}</a>
+        <a href="{{ '/' | relative_url }}#about">{{ t.nav.about }}</a>
+        <a href="{{ '/' | relative_url }}#contact">{{ t.nav.contact }}</a>
+        <div class="nav-controls">
+          <button class="theme-toggle" id="themeToggle" aria-label="다크/라이트 모드 전환">
+            <span class="theme-icon">🌙</span>
+          </button>
+          <div class="lang-selector">
+            {%- for lang in site.languages -%}
+              {%- assign lang_page_url = page.url -%}
+              {%- if lang != site.default_lang -%}
+                {%- assign lang_page_url = '/' | append: lang | append: page.url -%}
+              {%- endif -%}
+              {%- if lang == site.default_lang and page.lang != site.default_lang -%}
+                {%- assign lang_page_url = page.url | replace: '/' | append: page.lang, '' -%}
+              {%- endif -%}
+              <a href="{{ lang_page_url | relative_url }}"
+                 class="lang-link {% if lang == page.lang %}active{% endif %}"
+                 data-lang="{{ lang }}">
+                {%- if lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>

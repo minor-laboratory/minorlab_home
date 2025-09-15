@@ -1,0 +1,83 @@
+---
+layout: default
+lang: en
+title: "Terms of Service"
+description: "MinorLab Terms of Service - BookLab app service terms"
+---
+
+{%- assign t = site.data.translations[page.lang] -%}
+
+<section class="privacy-policy">
+  <div class="container">
+    <h1>{{ t.nav.terms }}</h1>
+
+    <div id="terms-loading" class="text-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-4 text-gray-600">Loading terms of service...</p>
+    </div>
+
+    <div id="terms-content" class="hidden">
+      <div class="policy-meta">
+        <p><strong>{{ t.privacy.last_updated }}:</strong> <span id="terms-updated"></span></p>
+        <p><strong>{{ t.privacy.effective_date }}:</strong> <span id="terms-effective"></span></p>
+      </div>
+
+      <div id="terms-body" class="policy-content mt-6">
+        <!-- Terms content will be loaded here dynamically -->
+      </div>
+    </div>
+
+    <div id="terms-error" class="hidden">
+      <div class="text-center py-12">
+        <div class="text-red-600">
+          <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <h3 class="text-lg font-medium">Unable to load terms of service</h3>
+          <p class="mt-2 text-gray-600">Please try again later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Load terms of service
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const policy = await window.MinorLabAPI.loadPolicy('terms');
+
+    if (policy) {
+      // Update terms meta information
+      document.getElementById('terms-updated').textContent =
+        new Date(policy.updated_at).toLocaleDateString('en-US');
+      document.getElementById('terms-effective').textContent =
+        new Date(policy.effective_at).toLocaleDateString('en-US');
+
+      // Display terms content
+      const termsBody = document.getElementById('terms-body');
+      if (policy.content_format === 'html') {
+        termsBody.innerHTML = policy.content;
+      } else if (policy.content_format === 'markdown') {
+        termsBody.innerHTML = window.MinorLabAPI.convertMarkdownToHtml(policy.content);
+      } else {
+        termsBody.innerHTML = `<pre class="whitespace-pre-wrap">${policy.content}</pre>`;
+      }
+
+      // Hide loading and show content
+      document.getElementById('terms-loading').classList.add('hidden');
+      document.getElementById('terms-content').classList.remove('hidden');
+
+    } else {
+      throw new Error('No active terms policy found');
+    }
+
+  } catch (error) {
+    console.error('Error loading terms:', error);
+
+    // Show error state
+    document.getElementById('terms-loading').classList.add('hidden');
+    document.getElementById('terms-error').classList.remove('hidden');
+  }
+});
+</script>

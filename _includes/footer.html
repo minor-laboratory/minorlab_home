@@ -1,0 +1,24 @@
+{%- assign t = site.data.translations[page.lang] | default: site.data.translations[site.default_lang] -%}
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>{{ site.title }}</h3>
+        <p>{{ t.footer.description }}</p>
+      </div>
+      <div class="footer-section">
+        <h4>{{ t.footer.legal_title }}</h4>
+        <a href="{{ '/privacy' | relative_url }}">{{ t.nav.privacy }}</a>
+        <a href="{{ '/terms' | relative_url }}">{{ t.nav.terms }}</a>
+      </div>
+      <div class="footer-section">
+        <h4>{{ t.footer.apps_title }}</h4>
+        <a href="{{ '/' | relative_url }}#apps">{{ t.apps.booklab.name }}</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 {{ site.company_name }}. {{ t.footer.rights }}</p>
+    </div>
+  </div>
+</footer>

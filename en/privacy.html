@@ -1,0 +1,83 @@
+---
+layout: default
+lang: en
+title: "Privacy Policy"
+description: "MinorLab Privacy Policy - BookLab app data processing policy"
+---
+
+{%- assign t = site.data.translations[page.lang] -%}
+
+<section class="privacy-policy">
+  <div class="container">
+    <h1>{{ t.privacy.title }}</h1>
+
+    <div id="policy-loading" class="text-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-4 text-gray-600">Loading privacy policy...</p>
+    </div>
+
+    <div id="policy-content" class="hidden">
+      <div class="policy-meta">
+        <p><strong>{{ t.privacy.last_updated }}:</strong> <span id="policy-updated"></span></p>
+        <p><strong>{{ t.privacy.effective_date }}:</strong> <span id="policy-effective"></span></p>
+      </div>
+
+      <div id="policy-body" class="policy-content mt-6">
+        <!-- Privacy policy content will be loaded here dynamically -->
+      </div>
+    </div>
+
+    <div id="policy-error" class="hidden">
+      <div class="text-center py-12">
+        <div class="text-red-600">
+          <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <h3 class="text-lg font-medium">Unable to load privacy policy</h3>
+          <p class="mt-2 text-gray-600">Please try again later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Load privacy policy
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const policy = await window.MinorLabAPI.loadPolicy('privacy');
+
+    if (policy) {
+      // Update policy meta information
+      document.getElementById('policy-updated').textContent =
+        new Date(policy.updated_at).toLocaleDateString('en-US');
+      document.getElementById('policy-effective').textContent =
+        new Date(policy.effective_at).toLocaleDateString('en-US');
+
+      // Display policy content
+      const policyBody = document.getElementById('policy-body');
+      if (policy.content_format === 'html') {
+        policyBody.innerHTML = policy.content;
+      } else if (policy.content_format === 'markdown') {
+        policyBody.innerHTML = window.MinorLabAPI.convertMarkdownToHtml(policy.content);
+      } else {
+        policyBody.innerHTML = `<pre class="whitespace-pre-wrap">${policy.content}</pre>`;
+      }
+
+      // Hide loading and show content
+      document.getElementById('policy-loading').classList.add('hidden');
+      document.getElementById('policy-content').classList.remove('hidden');
+
+    } else {
+      throw new Error('No active privacy policy found');
+    }
+
+  } catch (error) {
+    console.error('Error loading privacy policy:', error);
+
+    // Show error state
+    document.getElementById('policy-loading').classList.add('hidden');
+    document.getElementById('policy-error').classList.remove('hidden');
+  }
+});
+</script>

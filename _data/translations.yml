@@ -1,0 +1,109 @@
+ko:
+  site:
+    title: "MinorLab"
+    description: "습관이 지금의 나를 만듭니다"
+    tagline: "습관이 지금의 나를 만듭니다"
+
+  nav:
+    home: "홈"
+    apps: "앱"
+    about: "소개"
+    contact: "연락처"
+    privacy: "개인정보보호정책"
+    terms: "이용약관"
+
+  hero:
+    title: "습관 관리와 개인 성장을 위한 앱"
+    description: "MinorLab은 일상의 작은 습관이 큰 변화를 만든다는 믿음으로 다양한 앱과 서비스를 개발합니다."
+    cta: "앱 둘러보기"
+
+  apps:
+    title: "우리의 앱"
+    booklab:
+      name: "북랩 (BookLab)"
+      description: "독서 습관을 기록하고 관리하는 앱입니다. 읽은 책, 메모, 독서 목표를 체계적으로 관리할 수 있습니다."
+      status: "서비스 중"
+    routine:
+      name: "루티앱 (RoutineApp)"
+      description: "일상의 루틴과 습관을 추적하고 개선하는 앱입니다."
+      status: "출시 예정"
+    dreamteller:
+      name: "드림텔러 (DreamTeller)"
+      description: "꿈을 기록하고 해석하는 서비스입니다."
+      status: "기획 중"
+
+  about:
+    title: "MinorLab 소개"
+    description: "MinorLab은 \"Habits shape you (습관이 지금의 나를 만듭니다)\"라는 슬로건 아래, 사용자의 일상적인 습관과 성장을 돕는 디지털 도구들을 개발합니다."
+    mission: "우리의 미션은 작은 변화가 큰 성장으로 이어질 수 있도록 기술을 통해 지원하는 것입니다."
+
+  contact:
+    title: "연락처"
+    email: "이메일"
+    business: "사업 문의 및 제휴"
+
+  footer:
+    description: "습관이 지금의 나를 만듭니다"
+    legal_title: "법적 정보"
+    apps_title: "앱"
+    rights: "All rights reserved."
+
+  privacy:
+    title: "개인정보보호정책"
+    last_updated: "최종 업데이트"
+    effective_date: "시행일"
+
+en:
+  site:
+    title: "MinorLab"
+    description: "Habits shape you"
+    tagline: "Habits shape you"
+
+  nav:
+    home: "Home"
+    apps: "Apps"
+    about: "About"
+    contact: "Contact"
+    privacy: "Privacy Policy"
+    terms: "Terms of Service"
+
+  hero:
+    title: "Apps for Habit Management and Personal Growth"
+    description: "MinorLab develops various apps and services based on the belief that small daily habits create big changes."
+    cta: "Explore Apps"
+
+  apps:
+    title: "Our Apps"
+    booklab:
+      name: "BookLab"
+      description: "An app for recording and managing reading habits. You can systematically manage books you've read, notes, and reading goals."
+      status: "Live"
+    routine:
+      name: "RoutineApp"
+      description: "An app for tracking and improving daily routines and habits."
+      status: "Coming Soon"
+    dreamteller:
+      name: "DreamTeller"
+      description: "A service for recording and interpreting dreams."
+      status: "In Planning"
+
+  about:
+    title: "About MinorLab"
+    description: "MinorLab develops digital tools that help users with their daily habits and growth under the slogan \"Habits shape you.\""
+    mission: "Our mission is to support small changes leading to big growth through technology."
+
+  contact:
+    title: "Contact"
+    email: "Email"
+    business: "Business inquiries & partnerships"
+
+  footer:
+    description: "Habits shape you"
+    legal_title: "Legal"
+    apps_title: "Apps"
+    rights: "All rights reserved."
+
+  privacy:
+    title: "Privacy Policy"
+    last_updated: "Last updated"
+    effective_date: "Effective date"

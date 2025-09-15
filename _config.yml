@@ -1,0 +1,73 @@
+# Site settings
+title: MinorLab
+description: > # this means to ignore newlines until "baseurl:"
+  MinorLab - 습관이 지금의 나를 만듭니다.
+  습관 관리와 개인 성장을 위한 앱과 서비스를 개발하는 회사입니다.
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://heyoom.github.io" # the base hostname & protocol for your site
+twitter_username: minorlab
+github_username: heyoom
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Language settings
+languages: ["ko", "en"]
+default_lang: "ko"
+exclude_from_localizations: ["assets", "CNAME"]
+
+# Collections
+collections:
+  apps:
+    output: true
+    permalink: /:collection/:name/
+
+# Sass configuration
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "apps"
+    values:
+      layout: "app"
+
+# Site data
+email: danny@minorlab.com
+company_name: MinorLab
+tagline:
+  ko: "습관이 지금의 나를 만듭니다"
+  en: "Habits shape you"
