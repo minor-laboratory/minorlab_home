@@ -18,7 +18,13 @@ class MinorLabSite {
 
   // 재시도가 포함된 앱 로딩
   loadFamilyAppsWithRetry() {
-    // 즉시 시도
+    console.log('=== loadFamilyAppsWithRetry started ===');
+
+    // 즉시 기본 앱 표시 (테스트용)
+    console.log('Showing default apps immediately for testing');
+    this.showDefaultApps();
+
+    // 동시에 API 호출도 시도
     this.loadFamilyApps();
 
     // 1초 후 재시도 (API 실패 시를 위해)
@@ -104,9 +110,16 @@ class MinorLabSite {
         console.log('Rendering apps for language:', document.documentElement.lang);
         console.log('About to call renderApps with apps:', apps);
 
-        this.renderApps(apps);
-
-        console.log('renderApps call completed');
+        try {
+          this.renderApps(apps);
+          console.log('renderApps call completed successfully');
+        } catch (renderError) {
+          console.error('Error calling renderApps:', renderError);
+          console.error('Render error stack:', renderError.stack);
+          // 오류 발생 시 기본 앱 표시
+          this.showDefaultApps();
+          return;
+        }
 
         const loadingEl = document.getElementById('apps-loading');
         const contentEl = document.getElementById('apps-content');
