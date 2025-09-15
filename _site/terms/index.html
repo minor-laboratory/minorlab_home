@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>서비스 이용약관 | MinorLab</title>
+
+  <meta name="description" content="MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="서비스 이용약관">
+  <meta property="og:description" content="MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:4000/terms/">
+  <meta property="og:site_name" content="MinorLab">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="서비스 이용약관">
+  <meta name="twitter:description" content="MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- Language alternates --><link rel="alternate" hreflang="en" href="http://localhost:4000/terms/"><link rel="canonical" href="http://localhost:4000/terms/"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>서비스 이용약관 | MinorLab</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="서비스 이용약관" />
+<meta property="og:locale" content="ko" />
+<meta name="description" content="MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관" />
+<meta property="og:description" content="MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관" />
+<link rel="canonical" href="http://localhost:4000/terms/" />
+<meta property="og:url" content="http://localhost:4000/terms/" />
+<meta property="og:site_name" content="MinorLab" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="서비스 이용약관" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"MinorLab 서비스 이용약관 - 북랩(BookLab) 앱 서비스 약관","headline":"서비스 이용약관","url":"http://localhost:4000/terms/"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MinorLab" /></head><body><header class="header">
+  <div class="container">
+    <div class="nav">
+      <div class="logo">
+        <h1><a href="/">MinorLab</a></h1>
+        <span class="tagline">습관이 지금의 나를 만듭니다</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="/#home">홈</a>
+        <a href="/#apps">앱</a>
+        <a href="/#about">소개</a>
+        <a href="/#contact">연락처</a>
+        <div class="nav-controls">
+          <button class="theme-toggle" id="themeToggle" aria-label="다크/라이트 모드 전환">
+            <span class="theme-icon">🌙</span>
+          </button>
+          <div class="lang-selector"><a href="/terms/"
+                 class="lang-link active"
+                 data-lang="ko">한국어</a><a href="/en/terms/"
+                 class="lang-link "
+                 data-lang="en">English</a></div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header><main aria-label="Content">
+    <section class="privacy-policy">
+  <div class="container">
+    <h1>이용약관</h1>
+
+    <div id="terms-loading" class="text-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-4 text-gray-600">이용약관을 불러오는 중...</p>
+    </div>
+
+    <div id="terms-content" class="hidden">
+      <div class="policy-meta">
+        <p><strong>최종 업데이트:</strong> <span id="terms-updated"></span></p>
+        <p><strong>시행일:</strong> <span id="terms-effective"></span></p>
+      </div>
+
+      <div id="terms-body" class="policy-content mt-6">
+        <!-- 여기에 동적으로 약관 내용이 로드됩니다 -->
+      </div>
+    </div>
+
+    <div id="terms-error" class="hidden">
+      <div class="text-center py-12">
+        <div class="text-red-600">
+          <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <h3 class="text-lg font-medium">이용약관을 불러올 수 없습니다</h3>
+          <p class="mt-2 text-gray-600">잠시 후 다시 시도해주세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// 이용약관 로드
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const policy = await window.MinorLabAPI.loadPolicy('terms');
+
+    if (policy) {
+      // 약관 메타 정보 업데이트
+      document.getElementById('terms-updated').textContent =
+        new Date(policy.updated_at).toLocaleDateString('ko-KR');
+      document.getElementById('terms-effective').textContent =
+        new Date(policy.effective_at).toLocaleDateString('ko-KR');
+
+      // 약관 내용 표시
+      const termsBody = document.getElementById('terms-body');
+      if (policy.content_format === 'html') {
+        termsBody.innerHTML = policy.content;
+      } else if (policy.content_format === 'markdown') {
+        termsBody.innerHTML = window.MinorLabAPI.convertMarkdownToHtml(policy.content);
+      } else {
+        termsBody.innerHTML = `<pre class="whitespace-pre-wrap">${policy.content}</pre>`;
+      }
+
+      // 로딩 숨기고 내용 표시
+      document.getElementById('terms-loading').classList.add('hidden');
+      document.getElementById('terms-content').classList.remove('hidden');
+
+    } else {
+      throw new Error('No active terms policy found');
+    }
+
+  } catch (error) {
+    console.error('Error loading terms:', error);
+
+    // 에러 상태 표시
+    document.getElementById('terms-loading').classList.add('hidden');
+    document.getElementById('terms-error').classList.remove('hidden');
+  }
+});
+</script>
+  </main><footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>MinorLab</h3>
+        <p>습관이 지금의 나를 만듭니다</p>
+      </div>
+      <div class="footer-section">
+        <h4>법적 정보</h4>
+        <a href="/privacy">개인정보보호정책</a>
+        <a href="/terms">이용약관</a>
+      </div>
+      <div class="footer-section">
+        <h4>앱</h4>
+        <a href="/#apps">북랩 (BookLab)</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 MinorLab. All rights reserved.</p>
+    </div>
+  </div>
+</footer><script src="/assets/js/main.js"></script>
+</body>
+</html>
