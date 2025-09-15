@@ -23,7 +23,8 @@
                 {%- assign lang_page_url = '/' | append: lang | append: page.url -%}
               {%- endif -%}
               {%- if lang == site.default_lang and page.lang != site.default_lang -%}
-                {%- assign lang_page_url = page.url | replace: '/' | append: page.lang, '' -%}
+                {%- assign lang_prefix = '/' | append: page.lang -%}
+                {%- assign lang_page_url = page.url | replace: lang_prefix, '' -%}
               {%- endif -%}
               <a href="{{ lang_page_url | relative_url }}"
                  class="lang-link {% if lang == page.lang %}active{% endif %}"
