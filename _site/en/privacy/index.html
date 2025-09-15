@@ -107,12 +107,35 @@
 </section>
 
 <script>
-// Load privacy policy
+// Supabase connection and privacy policy loading
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const policy = await window.MinorLabAPI.loadPolicy('privacy');
+    // Initialize Supabase client
+    const SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
 
-    if (policy) {
+    // Determine country code based on user language
+    const userLang = document.documentElement.lang || 'en';
+    const countryCode = userLang === 'ko' ? 'KR' : 'US';
+
+    // Query privacy policy (by country)
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/policies?type=eq.privacy&country=eq.${countryCode}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch policy');
+    }
+
+    const policies = await response.json();
+
+    if (policies && policies.length > 0) {
+      const policy = policies[0];
+
       // Update policy meta information
       document.getElementById('policy-updated').textContent =
         new Date(policy.updated_at).toLocaleDateString('en-US');
@@ -124,9 +147,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (policy.content_format === 'html') {
         policyBody.innerHTML = policy.content;
       } else if (policy.content_format === 'markdown') {
-        policyBody.innerHTML = window.MinorLabAPI.convertMarkdownToHtml(policy.content);
+        // Convert markdown to HTML (simple conversion)
+        policyBody.innerHTML = convertMarkdownToHtml(policy.content);
       } else {
-        policyBody.innerHTML = `<pre class="whitespace-pre-wrap">${policy.content}</pre>`;
+        policyBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${policy.content}</pre>`;
       }
 
       // Hide loading and show content
@@ -145,6 +169,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('policy-error').classList.remove('hidden');
   }
 });
+
+// Simple markdown → HTML conversion
+function convertMarkdownToHtml(markdown) {
+  return markdown
+    // Headings
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    // Bold
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Lists
+    .replace(/^- (.*$)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    // Line breaks
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[uh])/gm, '<p>')
+    .replace(/(?<![>])$/gm, '</p>');
+}
 </script>
   </main><footer class="footer">
   <div class="container">
