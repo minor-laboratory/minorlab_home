@@ -8,8 +8,12 @@ class MinorLabSite {
   }
 
   init() {
+    console.log('MinorLabSite initializing...');
     this.setupThemeToggle();
-    this.loadFamilyApps();
+    // 앱 로딩을 지연시켜 DOM이 완전히 로드된 후 실행
+    setTimeout(() => {
+      this.loadFamilyApps();
+    }, 1000);
     this.setupSmoothScrolling();
     this.setupAnimations();
   }
@@ -85,8 +89,16 @@ class MinorLabSite {
       }
     } catch (error) {
       console.error('Failed to load family apps:', error);
-      document.getElementById('apps-loading').classList.add('hidden');
-      document.getElementById('apps-error').classList.remove('hidden');
+      console.error('Error details:', error.message, error.stack);
+
+      // 네트워크 오류인 경우 기본 앱 정보 표시
+      if (error.message.includes('Failed to fetch') || error.message.includes('Network')) {
+        console.log('Network error detected, showing default apps');
+        this.showDefaultApps();
+      } else {
+        document.getElementById('apps-loading').classList.add('hidden');
+        document.getElementById('apps-error').classList.remove('hidden');
+      }
     }
   }
 
@@ -251,6 +263,43 @@ class MinorLabSite {
     document.querySelectorAll('.fade-in').forEach(el => {
       observer.observe(el);
     });
+  }
+
+  // 네트워크 오류 시 기본 앱 정보 표시
+  showDefaultApps() {
+    const defaultApps = [
+      {
+        id: '1',
+        name: '북랩',
+        description: '독서 관리와 기록을 위한 스마트한 앱',
+        icon_url: null,
+        ios_url: null,
+        android_url: null,
+        web_url: null,
+        target: 'books',
+        platforms: ['ios', 'android'],
+        sort_order: 0,
+        is_active: true
+      },
+      {
+        id: '2',
+        name: '루티',
+        description: '생활 습관 개선으로 건강하게',
+        icon_url: null,
+        ios_url: null,
+        android_url: null,
+        web_url: null,
+        target: 'rooty',
+        platforms: ['ios', 'android'],
+        sort_order: 1,
+        is_active: true
+      }
+    ];
+
+    console.log('Showing default apps:', defaultApps);
+    this.renderApps(defaultApps);
+    document.getElementById('apps-loading').classList.add('hidden');
+    document.getElementById('apps-content').classList.remove('hidden');
   }
 }
 
