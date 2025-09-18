@@ -70,6 +70,40 @@ description: "BookLab 계정 삭제 요청"
         </div>
       </div>
 
+      <!-- 삭제 전 준비사항 -->
+      <div class="content-card">
+        <h2>{{ t.account_deletion.prerequisites_title }}</h2>
+        <div class="prerequisites-list">
+          <p>{{ t.account_deletion.prerequisites_subscription }}</p>
+          <p>{{ t.account_deletion.prerequisites_data_backup }}</p>
+          <p>{{ t.account_deletion.prerequisites_other_devices }}</p>
+        </div>
+      </div>
+
+      <!-- 삭제되는 데이터 유형 (구글 플레이 요구사항) -->
+      <div class="content-card">
+        <h2>{{ t.account_deletion.data_types_title }}</h2>
+        <p class="data-types-subtitle">{{ t.account_deletion.data_types_subtitle }}</p>
+        <div class="data-items">{{ t.account_deletion.data_types_items | newline_to_br }}</div>
+      </div>
+
+      <!-- 데이터 삭제 일정 (구글 플레이 요구사항) -->
+      <div class="content-card">
+        <h2>{{ t.account_deletion.retention_title }}</h2>
+
+        <div class="retention-section">
+          <h3>{{ t.account_deletion.retention_immediate_title }}</h3>
+          <div class="retention-items">{{ t.account_deletion.retention_immediate_items | newline_to_br }}</div>
+        </div>
+
+        <div class="retention-section">
+          <h3>{{ t.account_deletion.retention_scheduled_title }}</h3>
+          <div class="retention-items">{{ t.account_deletion.retention_scheduled_items | newline_to_br }}</div>
+        </div>
+
+        <p class="retention-note"><strong>{{ t.account_deletion.retention_note }}</strong></p>
+      </div>
+
       <!-- 처리 절차 -->
       <div class="content-card">
         <h2>{{ t.account_deletion.process_title }}</h2>
@@ -83,3 +117,182 @@ description: "BookLab 계정 삭제 요청"
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('deletion-form');
+  const emailInput = document.getElementById('email');
+  const confirmCheckbox = document.getElementById('confirm-deletion');
+  const submitButton = document.getElementById('submit-button');
+  const messageDiv = document.getElementById('form-message');
+
+  // 폼 유효성 검사 및 버튼 활성화
+  function validateForm() {
+    const isEmailValid = emailInput.value.trim() !== '' && emailInput.validity.valid;
+    const isConfirmed = confirmCheckbox.checked;
+
+    console.log('Validation check:');
+    console.log('Email value:', emailInput.value);
+    console.log('Email valid:', isEmailValid);
+    console.log('Checkbox checked:', isConfirmed);
+    console.log('Should enable button:', (isEmailValid && isConfirmed));
+
+    submitButton.disabled = !(isEmailValid && isConfirmed);
+    console.log('Button disabled after validation:', submitButton.disabled);
+  }
+
+  // 이벤트 리스너 등록
+  emailInput.addEventListener('input', validateForm);
+  emailInput.addEventListener('blur', validateForm);
+  confirmCheckbox.addEventListener('change', validateForm);
+
+  // 폼 제출 처리
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (submitButton.disabled) {
+      return;
+    }
+
+    const formData = new FormData(form);
+    const email = formData.get('email');
+    const reason = formData.get('reason') || '';
+
+    // 버튼 상태 변경
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span class="loading-spinner"></span> {{ t.account_deletion.form_processing }}';
+
+    // 실제 Edge Function 호출
+    try {
+      const response = await fetch('https://rfgljhekqxphguooidjj.supabase.co/functions/v1/account-deletion-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I',
+        },
+        body: JSON.stringify({
+          email: email,
+          reason: reason,
+          language: '{{ page.lang }}' // Jekyll 변수로 현재 언어 전달
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        showMessage('success', '{{ t.account_deletion.form_success_title }}', result.message);
+
+        // 폼 리셋
+        form.reset();
+
+        // 버튼 원래 상태로 복원
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+          </svg>
+          {{ t.account_deletion.form_submit_button }}
+        `;
+
+        validateForm(); // 폼 상태에 따라 버튼 활성화/비활성화
+      } else {
+        showMessage('error', '{{ t.account_deletion.form_error_title }}',
+          result.error || '{{ t.account_deletion.form_error_message }}');
+
+        // 버튼 복원
+        submitButton.disabled = false;
+        submitButton.innerHTML = `
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+          </svg>
+          {{ t.account_deletion.form_submit_button }}
+        `;
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      showMessage('error', '{{ t.account_deletion.form_error_title }}',
+        '{{ t.account_deletion.form_error_message }}');
+
+      // 버튼 복원
+      submitButton.disabled = false;
+      submitButton.innerHTML = `
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+        </svg>
+        {{ t.account_deletion.form_submit_button }}
+      `;
+    }
+  });
+
+  function showMessage(type, title, message) {
+    messageDiv.className = `message-box ${type}`;
+    messageDiv.innerHTML = `
+      <div class="message-header">
+        <strong>${title}</strong>
+      </div>
+      <div class="message-content">${message}</div>
+    `;
+    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // 초기 유효성 검사
+  validateForm();
+
+  // 디버깅용 콘솔 출력
+  console.log('Account deletion form initialized');
+  console.log('Email input:', emailInput);
+  console.log('Checkbox:', confirmCheckbox);
+  console.log('Submit button:', submitButton);
+  console.log('Initial button disabled state:', submitButton.disabled);
+});
+</script>
+
+<style>
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.message-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+}
+
+.message-box.success {
+  background-color: #f0fdf4;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.message-box.error {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.message-header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
+}
+</style>
