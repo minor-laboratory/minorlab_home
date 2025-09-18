@@ -87,10 +87,29 @@ ko:
     form_error_message: "잠시 후 다시 시도하시거나 danny@minorlab.com으로 직접 연락해주세요."
     email_subject: "BookLab 계정 삭제 요청"
     email_body: "안녕하세요,\n\nBookLab 계정 삭제를 요청합니다.\n\n계정 이메일: [여기에 계정 이메일 입력]\n삭제 사유: [선택사항]\n\n감사합니다."
+    # 삭제되는 데이터 유형 (구글 플레이 요구사항)
+    data_types_title: "삭제되는 데이터 유형"
+    data_types_subtitle: "계정 삭제 시 다음 데이터들이 삭제됩니다"
+    data_types_items: "• 계정 정보 (이메일, 프로필)\n• 독서 기록 (읽은 책, 메모, 목표)\n• 앱 사용 기록 및 설정"
+
+    # 데이터 삭제 일정 (구글 플레이 요구사항)
+    retention_title: "데이터 삭제 일정"
+    retention_immediate_title: "즉시 삭제"
+    retention_immediate_items: "• 계정 정보 및 로그인 권한"
+    retention_scheduled_title: "정기 삭제"
+    retention_scheduled_items: "• 사용자 데이터는 접근 불가 상태로 전환 후 정기적으로 완전 삭제"
+    retention_note: "삭제 요청 확인 후 계정은 즉시 비활성화되며, 관련 데이터는 정기적인 삭제 프로세스를 통해 완전히 제거됩니다."
+
+    # 삭제 전 준비사항
+    prerequisites_title: "계정 삭제 전 준비사항"
+    prerequisites_subscription: "• 활성 구독이 있는 경우 구독 취소 필요"
+    prerequisites_data_backup: "• 필요한 데이터가 있다면 미리 백업 권장"
+    prerequisites_other_devices: "• 다른 기기에서도 로그아웃됩니다"
+
     process_title: "처리 절차"
     process_step1: "요청 접수 후 3일 이내에 계정 확인 이메일 발송"
-    process_step2: "이메일 내 삭제 확인 링크 클릭 시 계정 및 데이터 완전 삭제"
-    process_step3: "삭제 완료 알림 이메일 발송"
+    process_step2: "이메일 내 삭제 확인 링크 클릭 시 즉시 삭제 시작"
+    process_step3: "정기적인 삭제 프로세스를 통해 모든 데이터 완전 삭제 및 완료 알림"
     contact_info: "문의사항이 있으시면 danny@minorlab.com으로 연락해 주세요."
     send_email: "이메일 보내기"
     verify_title: "계정 삭제 확인"
@@ -206,10 +225,29 @@ en:
     form_error_message: "Please try again later or contact danny@minorlab.com directly."
     email_subject: "BookLab Account Deletion Request"
     email_body: "Hello,\n\nI would like to request the deletion of my BookLab account.\n\nAccount email: [Enter your account email here]\nReason for deletion: [Optional]\n\nThank you."
+    # Data types to be deleted (Google Play requirement)
+    data_types_title: "Types of Data to be Deleted"
+    data_types_subtitle: "The following data will be deleted upon account deletion"
+    data_types_items: "• Account information (email, profile)\n• Reading records (books, notes, goals)\n• App usage records and settings"
+
+    # Data deletion schedule (Google Play requirement)
+    retention_title: "Data Deletion Schedule"
+    retention_immediate_title: "Immediate Deletion"
+    retention_immediate_items: "• Account information and login access"
+    retention_scheduled_title: "Scheduled Deletion"
+    retention_scheduled_items: "• User data becomes inaccessible and is completely deleted through regular deletion processes"
+    retention_note: "After confirming the deletion request, your account will be immediately deactivated, and related data will be completely removed through our regular deletion processes."
+
+    # Prerequisites before deletion
+    prerequisites_title: "Prerequisites Before Account Deletion"
+    prerequisites_subscription: "• Cancel active subscriptions if any"
+    prerequisites_data_backup: "• Back up any needed data in advance"
+    prerequisites_other_devices: "• You will be logged out from all other devices"
+
     process_title: "Processing Procedure"
     process_step1: "Account verification email will be sent within 3 days of receiving the request"
-    process_step2: "Account and data will be completely deleted when you click the deletion confirmation link in the email"
-    process_step3: "Deletion completion notification email will be sent"
+    process_step2: "Deletion process begins immediately when you click the confirmation link in the email"
+    process_step3: "All data completely deleted through regular deletion processes and completion notification sent"
     contact_info: "If you have any questions, please contact danny@minorlab.com."
     send_email: "Send Email"
     verify_title: "Account Deletion Verification"

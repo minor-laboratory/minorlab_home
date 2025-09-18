@@ -79,11 +79,6 @@ description: "BookLab App Account Deletion Verification Page - MinorLab"
           </div>
         </div>
 
-        <div class="text-center">
-          <a href="/en/account-deletion/" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-            {{ t.account_deletion.verify_retry_link }}
-          </a>
-        </div>
       </div>
     </div>
   </div>
@@ -112,10 +107,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await response.json();
 
-    if (data.success) {
+    if (response.ok && data.success) {
       showSuccess(data.email, data.verifiedAt);
     } else {
-      handleErrorType(data.error);
+      // HTTP 에러 상태코드 (400, 409, 410 등) 처리
+      if (data.error && data.error.type) {
+        handleErrorType(data.error.type);
+      } else {
+        showError('{{ t.account_deletion.verify_error_general }}', '{{ t.account_deletion.verify_error_network_desc }}');
+      }
     }
   } catch (error) {
     console.error('Verification failed:', error);
@@ -150,6 +150,7 @@ function handleErrorType(errorType) {
       description = '{{ t.account_deletion.verify_error_used_desc }}';
       break;
     case 'invalid':
+    case 'invalid_token':
       title = '{{ t.account_deletion.verify_error_invalid }}';
       description = '{{ t.account_deletion.verify_error_invalid_desc }}';
       break;

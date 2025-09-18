@@ -190,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         validateForm(); // 폼 상태에 따라 버튼 활성화/비활성화
       } else {
-        showMessage('error', '{{ t.account_deletion.form_error_title }}',
-          result.error || '{{ t.account_deletion.form_error_message }}');
+        const errorMessage = result.error?.detail || result.error || '{{ t.account_deletion.form_error_message }}';
+        showMessage('error', '{{ t.account_deletion.form_error_title }}', errorMessage);
 
         // 버튼 복원
         submitButton.disabled = false;
