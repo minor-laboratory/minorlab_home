@@ -1,0 +1,171 @@
+---
+layout: default
+lang: ko
+title: "계정 삭제"
+description: "BookLab 앱 계정 삭제 요청 페이지 - MinorLab"
+---
+
+<section class="account-deletion">
+  <div class="container">
+    <h1>계정 삭제</h1>
+
+    <div class="deletion-content">
+      <div class="deletion-info">
+        <h2>1. 앱에서 직접 삭제</h2>
+        <p>BookLab 앱 → 더보기 탭 → 계정 관리 → 회원 탈퇴</p>
+
+        <div class="warning">
+          <strong>⚠️ 중요 안내</strong><br>
+          계정 삭제 시 모든 데이터(독서 기록, 메모, 목표 등)가 영구적으로 삭제되며 복구할 수 없습니다.
+        </div>
+      </div>
+
+      <div class="deletion-request">
+        <h2>2. 이메일로 요청</h2>
+        <p>아래 폼을 작성하여 계정 삭제를 요청하세요</p>
+
+        <div class="email-form">
+          <p><strong>문의사항이 있으시면 danny@minorlab.com으로 연락해 주세요.</strong></p>
+          <p><a href="mailto:danny@minorlab.com?subject=BookLab 계정 삭제 요청&body=안녕하세요,%0A%0ABookLab 계정 삭제를 요청합니다.%0A%0A계정 이메일: [여기에 계정 이메일 입력]%0A삭제 사유: [선택사항]%0A%0A감사합니다.">
+            이메일 보내기
+          </a></p>
+
+          <div class="processing-info">
+            <h3>처리 절차</h3>
+            <ul>
+              <li>요청 접수 후 3일 이내에 계정 확인 이메일 발송</li>
+              <li>이메일 내 삭제 확인 링크 클릭 시 계정 및 데이터 완전 삭제</li>
+              <li>삭제 완료 알림 이메일 발송</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.account-deletion {
+  padding: 40px 0;
+  min-height: 80vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.account-deletion h1 {
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.deletion-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.deletion-info,
+.deletion-request {
+  padding: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.deletion-request {
+  border-bottom: none;
+}
+
+.deletion-info h2,
+.deletion-request h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.deletion-info h3,
+.deletion-request h3 {
+  color: #34495e;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.deletion-info p,
+.deletion-request p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.deletion-request ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.deletion-request li {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.email-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.email-form a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  background: #e3f2fd;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.email-form a:hover {
+  text-decoration: underline;
+  background: #bbdefb;
+}
+
+.processing-info {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 6px;
+  border-left: 4px solid #3498db;
+}
+
+.warning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 15px;
+  color: #856404;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .account-deletion h1 {
+    font-size: 2rem;
+  }
+
+  .deletion-info,
+  .deletion-request {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+}
+</style>
