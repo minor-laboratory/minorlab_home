@@ -71,3 +71,8 @@ company_name: MinorLab
 tagline:
   ko: "습관이 지금의 나를 만듭니다"
   en: "Habits shape you"
+
+# Supabase configuration (anon key is safe for public use)
+supabase:
+  url: "https://rfgljhekqxphguooidjj.supabase.co"
+  anon_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I"

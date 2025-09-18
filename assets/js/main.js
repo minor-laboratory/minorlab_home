@@ -15,6 +15,7 @@ class MinorLabSite {
     this.loadFamilyAppsWithRetry();
     this.setupSmoothScrolling();
     this.setupAnimations();
+    this.setupAccountDeletion();
   }
 
   // 재시도가 포함된 앱 로딩
@@ -474,6 +475,150 @@ class MinorLabSite {
     this.renderApps(defaultApps);
     document.getElementById('apps-loading').classList.add('hidden');
     document.getElementById('apps-content').classList.remove('hidden');
+  }
+
+  // 계정 삭제 폼 설정
+  setupAccountDeletion() {
+    console.log('setupAccountDeletion called');
+    const deletionForm = document.getElementById('deletion-form');
+    const confirmCheckbox = document.getElementById('confirm-deletion');
+    const submitButton = document.getElementById('submit-button');
+
+    console.log('Elements found:', {
+      deletionForm: !!deletionForm,
+      confirmCheckbox: !!confirmCheckbox,
+      submitButton: !!submitButton
+    });
+
+    if (!deletionForm || !confirmCheckbox || !submitButton) {
+      console.log('Some elements not found, exiting setup');
+      return; // 계정 삭제 페이지가 아니면 리턴
+    }
+
+    console.log('Setting up account deletion form');
+
+    // 체크박스 상태에 따라 버튼 활성화/비활성화
+    confirmCheckbox.addEventListener('change', () => {
+      console.log('Checkbox changed. Checked:', confirmCheckbox.checked);
+      submitButton.disabled = !confirmCheckbox.checked;
+      console.log('Button disabled:', submitButton.disabled);
+    });
+
+    // 폼 제출 처리
+    deletionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!confirmCheckbox.checked) {
+        alert('계정 삭제에 동의해주세요.');
+        return;
+      }
+
+      const formData = new FormData(deletionForm);
+      const email = formData.get('email');
+      const reason = formData.get('reason') || '';
+
+      // 버튼 비활성화 및 로딩 상태
+      submitButton.disabled = true;
+      submitButton.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        요청 처리 중...
+      `;
+
+      try {
+        // 계정 삭제 이메일 전송 (새로 구현된 Edge Function 사용)
+        const response = await this.sendAccountDeletionEmail(email, reason);
+
+        if (response.success) {
+          this.showFormMessage('success', `${email}로 계정 삭제 확인 이메일을 발송했습니다. 이메일을 확인하시고 삭제를 확인해주세요.`);
+          deletionForm.reset();
+        } else {
+          throw new Error(response.error || '요청 처리 중 오류가 발생했습니다.');
+        }
+      } catch (error) {
+        console.error('Account deletion request failed:', error);
+        this.showFormMessage('error', '요청 처리 중 오류가 발생했습니다. danny@minorlab.com으로 직접 연락해주세요.');
+      } finally {
+        // 버튼 상태 복원
+        submitButton.disabled = false;
+        submitButton.innerHTML = `
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+          </svg>
+          계정 삭제 요청하기
+        `;
+      }
+    });
+  }
+
+  // 계정 삭제 이메일 전송 (새로 구현된 Edge Function 사용)
+  async sendAccountDeletionEmail(email, reason) {
+    try {
+      const response = await fetch(`${this.SUPABASE_URL}/functions/v1/resend-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          to: email,
+          subject: 'BookLab 계정 삭제 요청',
+          html: `
+            <h2>BookLab 계정 삭제 요청</h2>
+            <p>안녕하세요,</p>
+            <p>BookLab 계정 삭제 요청을 받았습니다.</p>
+            <p><strong>계정 이메일:</strong> ${email}</p>
+            ${reason ? `<p><strong>삭제 사유:</strong> ${reason}</p>` : ''}
+            <p>계정 삭제를 확정하시려면 아래 링크를 클릭해주세요:</p>
+            <p><a href="mailto:danny@minorlab.com?subject=BookLab 계정 삭제 확인&body=계정 이메일: ${encodeURIComponent(email)}%0A%0A위 계정의 삭제를 확인합니다." style="background: #dc2626; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">계정 삭제 확인</a></p>
+            <p>또는 danny@minorlab.com으로 직접 연락해주세요.</p>
+            <p>감사합니다.<br>MinorLab 팀</p>
+          `
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Failed to send deletion email:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // 폼 메시지 표시
+  showFormMessage(type, message) {
+    const messageEl = document.getElementById('form-message');
+    if (!messageEl) return;
+
+    messageEl.className = `mt-4 p-4 rounded-lg ${type === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`;
+    messageEl.innerHTML = `
+      <div class="flex">
+        <div class="flex-shrink-0">
+          ${type === 'success'
+            ? '<svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>'
+            : '<svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
+          }
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium">${type === 'success' ? '요청이 성공적으로 전송되었습니다' : '요청 처리 중 오류가 발생했습니다'}</p>
+          <p class="mt-1 text-sm">${message}</p>
+        </div>
+      </div>
+    `;
+    messageEl.classList.remove('hidden');
+
+    // 성공 메시지는 5초 후 자동으로 숨김
+    if (type === 'success') {
+      setTimeout(() => {
+        messageEl.classList.add('hidden');
+      }, 5000);
+    }
   }
 }
 
