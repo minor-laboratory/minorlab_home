@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Supabase Function을 호출하여 토큰 검증
-    const response = await fetch(`https://rfgljhekqxphguooidjj.supabase.co/functions/v1/verify-account-deletion?token=${token}`, {
+    const response = await fetch(`https://rfgljhekqxphguooidjj.supabase.co/functions/v1/verify-deletion?token=${token}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
