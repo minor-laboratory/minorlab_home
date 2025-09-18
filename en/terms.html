@@ -42,22 +42,73 @@ description: "MinorLab Terms of Service - BookLab app service terms"
 </section>
 
 <script>
-// Supabase connection and terms loading
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // Supabase client initialization
-    const SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
+// 정책 캐싱 시스템
+class PolicyCache {
+  constructor() {
+    this.CACHE_PREFIX = 'minorlab_policy_';
+    this.CACHE_DURATION = 24 * 60 * 60 * 1000; // 24시간
+    this.SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
+    this.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
+  }
 
-    // Determine country code based on user language
-    const userLang = document.documentElement.lang || 'en';
-    const countryCode = userLang === 'en' ? 'US' : 'KR';
+  // 캐시 키 생성
+  getCacheKey(type, country) {
+    return `${this.CACHE_PREFIX}${type}_${country}`;
+  }
 
-    // Query terms (by country)
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/policies?type=eq.terms&country=eq.${countryCode}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
+  // 캐시에서 정책 로드
+  loadFromCache(type, country) {
+    try {
+      const cacheKey = this.getCacheKey(type, country);
+      const cached = localStorage.getItem(cacheKey);
+
+      if (!cached) return null;
+
+      const data = JSON.parse(cached);
+      const now = Date.now();
+
+      // 캐시 만료 확인
+      if (now - data.timestamp > this.CACHE_DURATION) {
+        this.clearCache(type, country);
+        return null;
+      }
+
+      console.log(`🎯 정책 캐시 히트: ${type} (${country})`);
+      return data.policy;
+    } catch (e) {
+      console.warn('캐시 로드 실패:', e);
+      return null;
+    }
+  }
+
+  // 캐시에 정책 저장
+  saveToCache(type, country, policy) {
+    try {
+      const cacheKey = this.getCacheKey(type, country);
+      const data = {
+        policy: policy,
+        timestamp: Date.now()
+      };
+
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      console.log(`💾 정책 캐시 저장: ${type} (${country})`);
+    } catch (e) {
+      console.warn('캐시 저장 실패:', e);
+    }
+  }
+
+  // 특정 캐시 삭제
+  clearCache(type, country) {
+    const cacheKey = this.getCacheKey(type, country);
+    localStorage.removeItem(cacheKey);
+  }
+
+  // 서버에서 정책 로드
+  async loadFromServer(type, country) {
+    const response = await fetch(`${this.SUPABASE_URL}/rest/v1/policies?type=eq.${type}&country=eq.${country}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
       headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': this.SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${this.SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json'
       }
     });
@@ -67,31 +118,106 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const policies = await response.json();
+    return policies && policies.length > 0 ? policies[0] : null;
+  }
 
-    if (policies && policies.length > 0) {
-      const policy = policies[0];
+  // 정책 로드 (캐시 우선)
+  async loadPolicy(type, country) {
+    // 1. 캐시에서 먼저 시도
+    let policy = this.loadFromCache(type, country);
 
-      // Update terms meta information
-      document.getElementById('terms-updated').textContent =
-        new Date(policy.updated_at).toLocaleDateString('en-US');
-      document.getElementById('terms-effective').textContent =
-        new Date(policy.effective_at).toLocaleDateString('en-US');
+    if (policy) {
+      // 캐시가 있으면 즉시 표시하고 백그라운드에서 업데이트 확인
+      this.checkForUpdates(type, country, policy);
+      return policy;
+    }
 
-      // Display terms content
-      const termsBody = document.getElementById('terms-body');
-      if (policy.content_format === 'html') {
-        termsBody.innerHTML = policy.content;
-      } else if (policy.content_format === 'markdown') {
-        // Convert markdown to HTML (simple conversion)
-        termsBody.innerHTML = convertMarkdownToHtml(policy.content);
-      } else {
-        termsBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${policy.content}</pre>`;
+    // 2. 캐시가 없으면 서버에서 로드
+    console.log(`🌐 서버에서 정책 로드: ${type} (${country})`);
+    policy = await this.loadFromServer(type, country);
+
+    if (policy) {
+      // 서버에서 로드한 정책을 캐시에 저장
+      this.saveToCache(type, country, policy);
+    }
+
+    return policy;
+  }
+
+  // 백그라운드 업데이트 확인
+  async checkForUpdates(type, country, currentPolicy) {
+    try {
+      const latestPolicy = await this.loadFromServer(type, country);
+
+      if (latestPolicy && this.hasChanged(currentPolicy, latestPolicy)) {
+        console.log(`🔄 정책 업데이트 발견: ${type} (${country})`);
+
+        // 캐시 업데이트
+        this.saveToCache(type, country, latestPolicy);
+
+        // UI 업데이트 (선택적)
+        this.updateUI(latestPolicy, type);
       }
+    } catch (e) {
+      console.warn('백그라운드 업데이트 확인 실패:', e);
+    }
+  }
 
-      // Hide loading and show content
-      document.getElementById('terms-loading').classList.add('hidden');
-      document.getElementById('terms-content').classList.remove('hidden');
+  // 정책 변경 확인
+  hasChanged(oldPolicy, newPolicy) {
+    return oldPolicy.id !== newPolicy.id ||
+           oldPolicy.updated_at !== newPolicy.updated_at ||
+           oldPolicy.version !== newPolicy.version;
+  }
 
+  // UI 업데이트
+  updateUI(policy, type = 'terms') {
+    // 메타 정보 업데이트
+    const policyUpdated = document.getElementById(`${type}-updated`);
+    const policyEffective = document.getElementById(`${type}-effective`);
+
+    if (policyUpdated) {
+      policyUpdated.textContent = new Date(policy.updated_at).toLocaleDateString('en-US');
+    }
+    if (policyEffective) {
+      policyEffective.textContent = new Date(policy.effective_at).toLocaleDateString('en-US');
+    }
+
+    // 정책 내용 업데이트
+    const policyBody = document.getElementById(`${type}-body`);
+    if (policyBody) {
+      if (policy.content_format === 'html') {
+        policyBody.innerHTML = policy.content;
+      } else if (policy.content_format === 'markdown') {
+        policyBody.innerHTML = convertMarkdownToHtml(policy.content);
+      } else {
+        policyBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${policy.content}</pre>`;
+      }
+    }
+
+    // 로딩 숨기고 내용 표시
+    const loading = document.getElementById(`${type}-loading`);
+    const content = document.getElementById(`${type}-content`);
+
+    if (loading) loading.classList.add('hidden');
+    if (content) content.classList.remove('hidden');
+  }
+}
+
+// 이용약관 로드 메인 함수
+document.addEventListener('DOMContentLoaded', async () => {
+  const cache = new PolicyCache();
+
+  try {
+    // 사용자 언어에 따른 국가 코드 결정
+    const userLang = document.documentElement.lang || 'en';
+    const countryCode = userLang === 'en' ? 'US' : 'KR';
+
+    // 정책 로드 (캐시 우선)
+    const policy = await cache.loadPolicy('terms', countryCode);
+
+    if (policy) {
+      cache.updateUI(policy, 'terms');
     } else {
       throw new Error('No active terms policy found');
     }
@@ -99,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error('Error loading terms:', error);
 
-    // Show error state
+    // 에러 상태 표시
     document.getElementById('terms-loading').classList.add('hidden');
     document.getElementById('terms-error').classList.remove('hidden');
   }
