@@ -121,6 +121,13 @@ en:
 - **파일**: `CNAME`
 - **도메인**: `minorlab.com`
 
+### Favicon 설정
+- **SVG 파일**: `assets/images/favicon.svg` (모던 브라우저 최우선)
+- **ICO 파일**: `assets/images/favicon.ico` (구형 브라우저 호환)
+- **PNG 파일들**: 16x16 ~ 512x512 다양한 크기 지원
+- **Apple Touch Icon**: `favicon_180x180.png` (iOS Safari용)
+- **설정 위치**: `_includes/head.html`의 Favicon 섹션
+
 ### SEO 최적화
 - **메타 태그**: 각 페이지 Front Matter에서 설정
 - **사이트맵**: Jekyll 자동 생성
@@ -162,5 +169,15 @@ en:
 
 ---
 
+## 📝 변경 이력
+
+### 2025-09-26
+- **Favicon 업데이트**: MinorLab 공식 로고로 favicon 전면 교체
+  - SVG, ICO, 다양한 크기의 PNG 파일 생성
+  - 모던 브라우저용 SVG favicon 우선 지원
+  - 구형 브라우저 및 다양한 기기 호환성 보장
+
+---
+
 **프로젝트 오너**: danny@minorlab.com
-**최종 업데이트**: 2025-09-18
+**최종 업데이트**: 2025-09-26
