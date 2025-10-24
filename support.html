@@ -1,0 +1,237 @@
+---
+layout: default
+lang: ko
+title: "고객 지원"
+description: "BookLab 앱 고객 지원 - 사용 가이드, FAQ, 문의 방법"
+---
+
+{%- assign t = site.data.translations[page.lang] -%}
+
+<section class="support">
+  <div class="container">
+    <h1>{{ t.support.title }}</h1>
+    <p class="subtitle">{{ t.support.subtitle }}</p>
+    <p class="description">{{ t.support.description }}</p>
+
+    <!-- About BookLab -->
+    <div class="section about-booklab">
+      <h2>{{ t.support.about_title }}</h2>
+      <p>{{ t.support.about_description }}</p>
+
+      <h3>{{ t.support.features_title }}</h3>
+      <ul class="features-list">
+        <li>📚 {{ t.support.feature_reading_records }}</li>
+        <li>📝 {{ t.support.feature_notes }}</li>
+        <li>🎯 {{ t.support.feature_goals }}</li>
+        <li>📊 {{ t.support.feature_stats }}</li>
+      </ul>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section faq">
+      <h2>{{ t.support.faq_title }}</h2>
+
+      <div class="faq-item">
+        <h3>{{ t.support.faq_q1 }}</h3>
+        <p>{{ t.support.faq_a1 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.support.faq_q2 }}</h3>
+        <p>{{ t.support.faq_a2 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.support.faq_q3 }}</h3>
+        <p>{{ t.support.faq_a3 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.support.faq_q4 }}</h3>
+        <p>{{ t.support.faq_a4 }}</p>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section contact-support">
+      <h2>{{ t.support.contact_title }}</h2>
+      <p>{{ t.support.contact_description }}</p>
+
+      <div class="contact-info">
+        <p><strong>{{ t.support.contact_email }}:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        <p class="note">{{ t.support.contact_response_time }}</p>
+      </div>
+    </div>
+
+    <!-- Related Links -->
+    <div class="section related-links">
+      <h2>{{ t.support.related_links_title }}</h2>
+      <ul class="links-list">
+        <li><a href="/privacy.html">{{ t.support.link_privacy }}</a></li>
+        <li><a href="/terms.html">{{ t.support.link_terms }}</a></li>
+        <li><a href="/account-deletion.html">{{ t.support.link_account_deletion }}</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+.support {
+  padding: 60px 0;
+}
+
+.support .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.support h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.support .subtitle {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.support .description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 3rem;
+}
+
+.support .section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.support .section:last-child {
+  border-bottom: none;
+}
+
+.support h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.support h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.support .features-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.support .features-list li {
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.support .faq-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.support .faq-item h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #2563eb;
+}
+
+.support .faq-item p {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.support .contact-info {
+  background-color: #f0f7ff;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.support .contact-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.support .contact-info a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.support .contact-info a:hover {
+  text-decoration: underline;
+}
+
+.support .contact-info .note {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.support .links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.support .links-list li {
+  padding: 0.75rem 0;
+}
+
+.support .links-list a {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.support .links-list a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .support {
+    padding: 40px 0;
+  }
+
+  .support h1 {
+    font-size: 2rem;
+  }
+
+  .support .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .support h2 {
+    font-size: 1.5rem;
+  }
+
+  .support h3 {
+    font-size: 1.1rem;
+  }
+
+  .support .contact-info {
+    padding: 1.5rem;
+  }
+}
+</style>
