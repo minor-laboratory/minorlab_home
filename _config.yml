@@ -36,6 +36,10 @@ sass:
   sass_dir: _sass
   style: compressed
 
+# Include in processing (Jekyll excludes some files by default)
+include:
+  - app-ads.txt
+
 # Exclude from processing
 exclude:
   - Gemfile
