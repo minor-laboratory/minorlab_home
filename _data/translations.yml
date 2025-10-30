@@ -92,6 +92,48 @@ ko:
     link_terms: "이용약관"
     link_account_deletion: "계정 삭제"
 
+  reset_password:
+    title: "비밀번호 재설정"
+    description: "새로운 비밀번호를 입력해주세요."
+    new_password: "새 비밀번호"
+    new_password_placeholder: "최소 6자 이상"
+    confirm_password: "비밀번호 확인"
+    confirm_password_placeholder: "비밀번호를 다시 입력해주세요"
+    submit: "비밀번호 변경"
+    submitting: "변경 중..."
+    show_password: "비밀번호 표시"
+    hide_password: "비밀번호 숨김"
+    # 성공
+    success_title: "비밀번호 변경 완료"
+    success_message: "비밀번호가 성공적으로 변경되었습니다."
+    success_instruction: "이제 BookLab 앱에서 새 비밀번호로 로그인할 수 있습니다."
+    back_to_app: "앱으로 돌아가기"
+    # Validation 에러
+    error_required: "필수 입력 항목입니다"
+    error_min_length: "비밀번호는 최소 6자 이상이어야 합니다"
+    error_not_match: "비밀번호가 일치하지 않습니다"
+    # 토큰 관련 에러
+    error_no_code: "유효하지 않은 링크입니다"
+    error_no_code_desc: "비밀번호 재설정 링크가 올바르지 않습니다. 이메일에서 받은 링크를 다시 확인해주세요."
+    error_expired: "링크가 만료되었습니다"
+    error_expired_desc: "보안을 위해 비밀번호 재설정 링크는 5분간만 유효합니다. 앱에서 비밀번호 재설정을 다시 요청해주세요."
+    error_already_used: "이미 사용된 링크입니다"
+    error_already_used_desc: "이 링크는 이미 사용되었습니다. 비밀번호를 다시 재설정하려면 앱에서 새로 요청해주세요."
+    error_invalid_code: "유효하지 않은 코드입니다"
+    error_invalid_code_desc: "비밀번호 재설정 코드가 올바르지 않습니다."
+    # 비밀번호 변경 에러
+    error_weak_password: "비밀번호가 너무 약합니다"
+    error_weak_password_desc: "더 강력한 비밀번호를 선택해주세요."
+    error_same_password: "새 비밀번호는 이전 비밀번호와 달라야 합니다"
+    # 네트워크 에러
+    error_network: "네트워크 오류"
+    error_network_desc: "인터넷 연결을 확인하고 다시 시도해주세요."
+    error_unknown: "오류가 발생했습니다"
+    error_unknown_desc: "잠시 후 다시 시도해주세요."
+    # 재시도
+    retry_button: "다시 시도"
+    request_new_link: "새 링크 요청하기"
+
   account_deletion:
     title: "계정 삭제"
     nav_title: "계정삭제"
@@ -259,6 +301,48 @@ en:
     link_privacy: "Privacy Policy"
     link_terms: "Terms of Service"
     link_account_deletion: "Account Deletion"
+
+  reset_password:
+    title: "Reset Password"
+    description: "Please enter your new password."
+    new_password: "New Password"
+    new_password_placeholder: "Minimum 6 characters"
+    confirm_password: "Confirm Password"
+    confirm_password_placeholder: "Re-enter your password"
+    submit: "Change Password"
+    submitting: "Changing..."
+    show_password: "Show password"
+    hide_password: "Hide password"
+    # Success
+    success_title: "Password Changed Successfully"
+    success_message: "Your password has been changed successfully."
+    success_instruction: "You can now log in to BookLab app with your new password."
+    back_to_app: "Back to App"
+    # Validation errors
+    error_required: "This field is required"
+    error_min_length: "Password must be at least 6 characters"
+    error_not_match: "Passwords do not match"
+    # Token errors
+    error_no_code: "Invalid link"
+    error_no_code_desc: "The password reset link is invalid. Please check the link from your email."
+    error_expired: "Link has expired"
+    error_expired_desc: "For security reasons, password reset links are valid for 5 minutes only. Please request a new password reset from the app."
+    error_already_used: "Link already used"
+    error_already_used_desc: "This link has already been used. Please request a new password reset from the app."
+    error_invalid_code: "Invalid code"
+    error_invalid_code_desc: "The password reset code is invalid."
+    # Password change errors
+    error_weak_password: "Password is too weak"
+    error_weak_password_desc: "Please choose a stronger password."
+    error_same_password: "New password must be different from the current password"
+    # Network errors
+    error_network: "Network Error"
+    error_network_desc: "Please check your internet connection and try again."
+    error_unknown: "An error occurred"
+    error_unknown_desc: "Please try again later."
+    # Retry
+    retry_button: "Try Again"
+    request_new_link: "Request New Link"
 
   account_deletion:
     title: "Account Deletion"
