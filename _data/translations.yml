@@ -18,19 +18,12 @@ ko:
     cta: "앱 둘러보기"
 
   apps:
-    title: "우리의 앱"
-    booklab:
-      name: "북랩 (BookLab)"
-      description: "독서 습관을 기록하고 관리하는 앱입니다. 읽은 책, 메모, 독서 목표를 체계적으로 관리할 수 있습니다."
-      status: "서비스 중"
-    routine:
-      name: "루티앱 (RoutineApp)"
-      description: "일상의 루틴과 습관을 추적하고 개선하는 앱입니다."
-      status: "출시 예정"
-    dreamteller:
-      name: "드림텔러 (DreamTeller)"
-      description: "꿈을 기록하고 해석하는 서비스입니다."
-      status: "기획 중"
+    title: "우리의 서비스"
+    loading: "서비스 목록을 불러오는 중..."
+    error_title: "서비스 목록을 불러올 수 없습니다"
+    error_message: "잠시 후 다시 시도해주세요."
+    empty_title: "등록된 서비스가 없습니다"
+    empty_message: "곧 새로운 서비스를 만나보실 수 있습니다."
 
   about:
     title: "MinorLab 소개"
@@ -236,19 +229,12 @@ en:
     cta: "Explore Apps"
 
   apps:
-    title: "Our Apps"
-    booklab:
-      name: "BookLab"
-      description: "An app for recording and managing reading habits. You can systematically manage books you've read, notes, and reading goals."
-      status: "Live"
-    routine:
-      name: "RoutineApp"
-      description: "An app for tracking and improving daily routines and habits."
-      status: "Coming Soon"
-    dreamteller:
-      name: "DreamTeller"
-      description: "A service for recording and interpreting dreams."
-      status: "In Planning"
+    title: "Our Services"
+    loading: "Loading services..."
+    error_title: "Unable to load services"
+    error_message: "Please try again later."
+    empty_title: "No services available"
+    empty_message: "New services coming soon."
 
   about:
     title: "About MinorLab"

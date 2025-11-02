@@ -22,6 +22,7 @@
     --text-accent: #10141f;
     --border-color: #e5e7eb;
     --border-light: #f3f4f6;
+    --primary-color: #3b82f6;
     --accent-color: linear-gradient(135deg, #ae00ee 0%, #60b0ba 100%);
     --accent-solid: #ae00ee;
     --accent-hover: linear-gradient(135deg, #9900cc 0%, #4a8a94 100%);
@@ -51,6 +52,7 @@
     --text-accent: #ffffff;
     --border-color: #374151;
     --border-light: #4b5563;
+    --primary-color: #60a5fa;
     --accent-color: linear-gradient(135deg, #d60067 0%, #60b0ba 100%);
     --accent-solid: #d60067;
     --accent-hover: linear-gradient(135deg, #b8005a 0%, #4a8a94 100%);
@@ -461,6 +463,78 @@ section {
 
 .app-status {
     margin-bottom: 1rem;
+}
+
+.store-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.store-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1.5px solid;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.store-badge svg {
+    flex-shrink: 0;
+}
+
+.store-badge.ios {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.store-badge.ios:hover {
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .store-badge.ios {
+    background-color: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+[data-theme="dark"] .store-badge.ios:hover {
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+
+.store-badge.android {
+    background-color: transparent;
+    color: #01875f;
+    border-color: #01875f;
+}
+
+.store-badge.android:hover {
+    background-color: rgba(1, 135, 95, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(1, 135, 95, 0.2);
+}
+
+.store-badge.web {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.store-badge.web:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
 
 .status-badge {
