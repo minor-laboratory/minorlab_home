@@ -1,0 +1,238 @@
+---
+layout: default
+lang: en
+title: "UpNow Support"
+description: "UpNow app customer support - Usage guide, FAQ, Contact"
+---
+
+{%- assign t = site.data.translations[page.lang].upnow_support -%}
+
+<section class="support">
+  <div class="container">
+    <h1>{{ t.title }}</h1>
+    <p class="subtitle">{{ t.subtitle }}</p>
+    <p class="description">{{ t.description }}</p>
+
+    <!-- About UpNow -->
+    <div class="section about-app">
+      <h2>{{ t.about_title }}</h2>
+      <p>{{ t.about_description }}</p>
+
+      <h3>{{ t.features_title }}</h3>
+      <ul class="features-list">
+        <li>⏰ {{ t.feature_interval }}</li>
+        <li>🎬 {{ t.feature_video }}</li>
+        <li>🖥️ {{ t.feature_monitor }}</li>
+        <li>📷 {{ t.feature_camera }}</li>
+        <li>🔒 {{ t.feature_lock }}</li>
+      </ul>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section faq">
+      <h2>{{ t.faq_title }}</h2>
+
+      <div class="faq-item">
+        <h3>{{ t.faq_q1 }}</h3>
+        <p>{{ t.faq_a1 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.faq_q2 }}</h3>
+        <p>{{ t.faq_a2 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.faq_q3 }}</h3>
+        <p>{{ t.faq_a3 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.faq_q4 }}</h3>
+        <p>{{ t.faq_a4 }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>{{ t.faq_q5 }}</h3>
+        <p>{{ t.faq_a5 }}</p>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section contact-support">
+      <h2>{{ t.contact_title }}</h2>
+      <p>{{ t.contact_description }}</p>
+
+      <div class="contact-info">
+        <p><strong>{{ t.contact_email }}:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        <p class="note">{{ t.contact_response_time }}</p>
+      </div>
+    </div>
+
+    <!-- Related Links -->
+    <div class="section related-links">
+      <h2>{{ t.related_links_title }}</h2>
+      <ul class="links-list">
+        <li><a href="/privacy.html">{{ t.link_privacy }}</a></li>
+        <li><a href="/terms.html">{{ t.link_terms }}</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+.support {
+  padding: 60px 0;
+}
+
+.support .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.support h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.support .subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.support .description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+}
+
+.support .section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.support .section:last-child {
+  border-bottom: none;
+}
+
+.support h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.support h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.support .features-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.support .features-list li {
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.support .faq-item {
+  margin-bottom: 1.5rem;
+}
+
+.support .faq-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.support .faq-item p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.support .contact-info {
+  background-color: var(--bg-tertiary);
+  padding: 2rem;
+  border-radius: var(--radius);
+  margin-top: 1rem;
+}
+
+.support .contact-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.support .contact-info a {
+  color: var(--info-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.support .contact-info a:hover {
+  text-decoration: underline;
+}
+
+.support .contact-info .note {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.support .links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.support .links-list li {
+  padding: 0.75rem 0;
+}
+
+.support .links-list a {
+  color: var(--info-color);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.support .links-list a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .support {
+    padding: 40px 0;
+  }
+
+  .support h1 {
+    font-size: 2rem;
+  }
+
+  .support .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .support h2 {
+    font-size: 1.5rem;
+  }
+
+  .support h3 {
+    font-size: 1.1rem;
+  }
+
+  .support .contact-info {
+    padding: 1.5rem;
+  }
+}
+</style>
