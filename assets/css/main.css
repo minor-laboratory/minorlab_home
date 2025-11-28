@@ -513,6 +513,30 @@ section {
     border-color: #e5e5e5;
 }
 
+.store-badge.macos {
+    background-color: #1d1d1f;
+    color: #fff;
+    border-color: #1d1d1f;
+}
+
+.store-badge.macos:hover {
+    background-color: #2d2d2f;
+    border-color: #2d2d2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .store-badge.macos {
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    border-color: #f5f5f7;
+}
+
+[data-theme="dark"] .store-badge.macos:hover {
+    background-color: #e5e5e7;
+    border-color: #e5e5e7;
+}
+
 .store-badge.android {
     background-color: transparent;
     color: #01875f;
