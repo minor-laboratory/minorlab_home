@@ -353,7 +353,7 @@ class MinorLabSite {
 
   // 상태 클래스 결정
   getStatusClass(app) {
-    if (app.ios_url || app.android_url || app.web_url) {
+    if (app.ios_url || app.macos_url || app.android_url || app.web_url) {
       return 'status-live';
     } else if (app.target === 'rooty' || app.name.includes('루티')) {
       return 'status-upcoming';
@@ -390,6 +390,10 @@ class MinorLabSite {
 
     if (app.ios_url) {
       links.push(`<a href="${app.ios_url}" target="_blank" rel="noopener noreferrer" class="app-link app-link-ios" title="App Store">🍎 iOS</a>`);
+    }
+
+    if (app.macos_url) {
+      links.push(`<a href="${app.macos_url}" target="_blank" rel="noopener noreferrer" class="app-link app-link-macos" title="Mac App Store">💻 macOS</a>`);
     }
 
     if (app.android_url) {
