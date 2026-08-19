@@ -11,8 +11,10 @@ class MinorLabSite {
     console.log('MinorLabSite initializing...');
     this.setupThemeToggle();
     this.setupLanguageDropdown();
-    // 앱 로딩을 더 안정적으로 처리
-    this.loadFamilyAppsWithRetry();
+    // 레거시 앱 목록이 있는 페이지에서만 로드합니다.
+    if (document.getElementById('apps-content') && !document.body.classList.contains('homepage')) {
+      this.loadFamilyAppsWithRetry();
+    }
     this.setupSmoothScrolling();
     this.setupAnimations();
     this.setupAccountDeletion();

@@ -71,6 +71,7 @@ defaults:
 
 # Site data
 email: support@minorlab.com
+contact_email: hello@minorlab.com
 company_name: MinorLab
 tagline:
   ko: "습관이 지금의 나를 만듭니다"

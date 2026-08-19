@@ -1,48 +1,48 @@
 {%- assign t = site.data.translations[page.lang] | default: site.data.translations[site.default_lang] -%}
+{%- if page.lang == 'en' -%}
+  {%- assign localized_home = '/en/' -%}
+  {%- assign language_url = page.url | remove_first: '/en' -%}
+  {%- if language_url == '' -%}{%- assign language_url = '/' -%}{%- endif -%}
+  {%- assign language_code = 'KR' -%}
+  {%- assign language_target = 'ko' -%}
+{%- else -%}
+  {%- assign localized_home = '/' -%}
+  {%- assign language_url = '/en' | append: page.url -%}
+  {%- assign language_code = 'EN' -%}
+  {%- assign language_target = 'en' -%}
+{%- endif -%}
 
-<header class="header">
-  <div class="container">
-    <div class="nav">
-      <div class="logo">
-        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-        <span class="tagline">{{ t.site.tagline }}</span>
-      </div>
-      <nav class="nav-menu">
-        <a href="{{ '/' | relative_url }}#home">{{ t.nav.home }}</a>
-        <a href="{{ '/' | relative_url }}#apps">{{ t.nav.apps }}</a>
-        <a href="{{ '/' | relative_url }}#about">{{ t.nav.about }}</a>
-        <a href="{{ '/' | relative_url }}#contact">{{ t.nav.contact }}</a>
-        <div class="nav-controls">
-          <button class="theme-toggle" id="themeToggle" aria-label="다크/라이트 모드 전환">
-            <span class="theme-icon">🌙</span>
-          </button>
-          <div class="lang-selector" id="langSelector">
-            <button class="lang-toggle" id="langToggle">
-              <span class="current-lang">
-                {%- if page.lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
-              </span>
-              <span class="lang-arrow">▼</span>
-            </button>
-            <div class="lang-dropdown" id="langDropdown">
-              {%- for lang in site.languages -%}
-                {%- assign lang_page_url = page.url -%}
-                {%- if lang != site.default_lang -%}
-                  {%- assign lang_page_url = '/' | append: lang | append: page.url -%}
-                {%- endif -%}
-                {%- if lang == site.default_lang and page.lang != site.default_lang -%}
-                  {%- assign lang_prefix = '/' | append: page.lang -%}
-                  {%- assign lang_page_url = page.url | replace: lang_prefix, '' -%}
-                {%- endif -%}
-                <a href="{{ lang_page_url | relative_url }}"
-                   class="lang-option {% if lang == page.lang %}active{% endif %}"
-                   data-lang="{{ lang }}">
-                  {%- if lang == 'ko' -%}한국어{%- else -%}English{%- endif -%}
-                </a>
-              {%- endfor -%}
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
+<header class="home-header" id="home-header">
+  <a class="home-wordmark" href="{{ localized_home | relative_url }}" aria-label="MinorLab home">
+    <img src="{{ '/assets/images/brand-mark.svg' | relative_url }}" alt="">
+    <span>MinorLab</span>
+  </a>
+
+  <nav class="home-nav" aria-label="{% if page.lang == 'en' %}Primary navigation{% else %}주요 메뉴{% endif %}">
+    {%- if page.body_class == 'homepage' -%}
+    <a href="#belief">{{ t.home.belief_label | split: '/' | last | strip }}</a>
+    <a href="#apps">{{ t.home.work_label | split: '/' | last | strip }}</a>
+    <a href="#contact">{{ t.nav.contact }}</a>
+    {%- else -%}
+    <a href="{{ localized_home | relative_url }}#belief">{{ t.home.belief_label | split: '/' | last | strip }}</a>
+    <a href="{{ localized_home | relative_url }}#apps">{{ t.home.work_label | split: '/' | last | strip }}</a>
+    <a href="{{ localized_home | relative_url }}#contact">{{ t.nav.contact }}</a>
+    {%- endif -%}
+  </nav>
+
+  <div class="home-controls">
+    <button
+      class="home-theme-toggle"
+      id="theme-toggle"
+      type="button"
+      aria-label="{{ t.home.theme_dark }}"
+      aria-pressed="false"
+      data-light-label="{{ t.home.theme_light }}"
+      data-dark-label="{{ t.home.theme_dark }}"
+    >
+      <span class="home-theme-sun" aria-hidden="true">☀</span>
+      <span class="home-theme-moon" aria-hidden="true">☾</span>
+    </button>
+    <a class="home-language" href="{{ language_url | relative_url }}" hreflang="{{ language_target }}">{{ language_code }}</a>
   </div>
 </header>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: 'ko' }}">
 {%- include head.html -%}
-<body>
+<body class="{{ page.body_class | default: 'detail-page' }}">
   {%- include header.html -%}
 
   <main aria-label="Content">
@@ -11,5 +11,6 @@
   {%- include footer.html -%}
 
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/home.js' | relative_url }}"></script>
 </body>
 </html>

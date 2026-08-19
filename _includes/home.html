@@ -1,0 +1,110 @@
+{%- assign t = site.data.translations[page.lang] -%}
+
+<div class="home-noise" aria-hidden="true"></div>
+
+<section class="home-hero" id="home">
+  <div class="home-hero-shape" aria-hidden="true"></div>
+  <div class="home-hero-copy">
+    <p class="home-eyebrow">{{ t.home.eyebrow }}</p>
+    <h1>
+      <span>{{ t.home.hero_line_1 }}</span>
+      <span class="home-hero-indent">{{ t.home.hero_line_2_prefix }} <em>{{ t.home.hero_emphasis }}</em></span>
+    </h1>
+  </div>
+  <div class="home-hero-bottom">
+    <a class="home-scroll-cue" href="#belief">
+      <span aria-hidden="true">↓</span>{{ t.home.scroll }}
+    </a>
+    <p>{{ t.home.intro }}</p>
+  </div>
+</section>
+
+<div class="home-marquee" aria-label="{{ t.home.marquee_label }}">
+  <div class="home-marquee-track">
+    <span>{{ t.home.marquee }} <b>✦</b> {{ t.home.marquee_2 }} <b>✦</b> {{ t.home.marquee_3 }} <b>✦</b>&nbsp;</span>
+    <span aria-hidden="true">{{ t.home.marquee }} <b>✦</b> {{ t.home.marquee_2 }} <b>✦</b> {{ t.home.marquee_3 }} <b>✦</b>&nbsp;</span>
+  </div>
+</div>
+
+<section class="home-belief" id="belief">
+  <div class="home-section-grid">
+    <p class="home-section-index" data-reveal>{{ t.home.belief_label }}</p>
+    <div>
+      <h2 data-reveal>
+        {{ t.home.belief_lead }}<br>
+        <span class="home-soft">{{ t.home.belief_soft }}</span><br>
+        <span class="home-blue">{{ t.home.belief_focus }}</span>{{ t.home.belief_tail }}
+      </h2>
+      <div class="home-principles">
+        {%- for principle in t.home.principles -%}
+        <article class="home-principle" data-reveal>
+          <strong>0{{ forloop.index }}</strong>
+          <p>{{ principle }}</p>
+        </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section
+  class="home-work"
+  id="apps"
+  data-apps-endpoint="{{ site.supabase.url }}/rest/v1/family_apps?is_active=eq.true&amp;order=sort_order.asc,name.asc"
+  data-apps-key="{{ site.supabase.anon_key }}"
+>
+  <div class="home-work-header">
+    <div data-reveal>
+      <p class="home-section-index">{{ t.home.work_label }}</p>
+      <h2>{{ t.home.work_title_line_1 }}<br>{{ t.home.work_title_line_2 }}</h2>
+    </div>
+    <p class="home-work-note" data-reveal>{{ t.home.work_note }}</p>
+  </div>
+
+  <p class="home-apps-status" id="apps-loading" aria-live="polite">{{ t.apps.loading }}</p>
+  <div class="home-projects" id="apps-content">
+    <article class="home-project home-project--book" data-reveal>
+      <div class="home-project-kicker">
+        <span>{{ t.home.book_kicker }}</span><span>{{ t.home.live }}</span>
+      </div>
+      <h3>BookLab</h3>
+      <p>{{ t.home.book_description }}</p>
+      <div class="home-project-links">
+        {%- if page.lang == 'en' -%}
+        <a href="{{ '/en/booklab/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
+        {%- else -%}
+        <a href="{{ '/booklab/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
+        {%- endif -%}
+      </div>
+      <div class="home-book-visual" aria-hidden="true"></div>
+    </article>
+
+    <article class="home-project home-project--up" data-reveal>
+      <div class="home-project-kicker">
+        <span>{{ t.home.up_kicker }}</span><span>{{ t.home.live }}</span>
+      </div>
+      <h3>UpNow</h3>
+      <p>{{ t.home.up_description }}</p>
+      <div class="home-project-links">
+        {%- if page.lang == 'en' -%}
+        <a href="{{ '/en/upnow/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
+        {%- else -%}
+        <a href="{{ '/upnow/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
+        {%- endif -%}
+      </div>
+      <div class="home-up-visual" aria-hidden="true">↑</div>
+    </article>
+  </div>
+</section>
+
+<section class="home-manifesto" id="contact">
+  <p data-reveal>{{ t.home.manifesto_label }}</p>
+  <h2 data-reveal>{{ t.home.manifesto_before }}<br><em>{{ t.home.manifesto_emphasis }}</em>{{ t.home.manifesto_after }}</h2>
+  {%- assign contact_subject = 'MinorLab 문의' -%}
+  {%- if page.lang == 'en' -%}
+    {%- assign contact_subject = 'MinorLab inquiry' -%}
+  {%- endif -%}
+  <a class="home-contact-link" href="mailto:{{ site.contact_email }}?subject={{ contact_subject | uri_escape }}" data-reveal>
+    {{ t.home.contact_cta }} <span aria-hidden="true">↗</span>
+  </a>
+</section>

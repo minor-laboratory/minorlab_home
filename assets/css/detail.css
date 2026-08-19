@@ -1,0 +1,275 @@
+body.detail-page {
+  overflow-x: hidden;
+  color: var(--home-ink);
+  background:
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--home-blue) 12%, transparent), transparent 25%),
+    var(--home-paper);
+  transition: color 220ms ease, background-color 220ms ease;
+}
+
+.detail-page main {
+  min-height: 70vh;
+  padding-top: 72px;
+}
+
+.detail-page main > section {
+  padding: clamp(82px, 10vw, 142px) 0 clamp(100px, 12vw, 170px);
+}
+
+.detail-page main > section > .container,
+.detail-page .content-wrapper {
+  width: min(100% - 40px, 980px);
+  max-width: 980px;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.detail-page main h1 {
+  max-width: 900px;
+  margin: 0 0 clamp(48px, 7vw, 88px);
+  color: var(--home-ink);
+  font-size: clamp(52px, 8vw, 104px);
+  font-weight: 850;
+  line-height: 0.92;
+  letter-spacing: -0.065em;
+}
+
+.detail-page main h1::before {
+  content: "MinorLab / Document";
+  display: block;
+  margin-bottom: 24px;
+  color: var(--home-orange);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.detail-page .support h1::before {
+  content: "MinorLab / Support";
+}
+
+.detail-page .account-deletion h1::before {
+  content: "MinorLab / Account";
+}
+
+.detail-page .policy-meta,
+.detail-page .content-card,
+.detail-page .support .section {
+  border: 1px solid var(--home-line);
+  border-radius: 24px;
+  color: var(--home-ink);
+  background: color-mix(in srgb, var(--home-paper-strong) 72%, transparent);
+  box-shadow: none;
+}
+
+.detail-page .policy-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: clamp(58px, 8vw, 92px);
+  padding: 26px 30px;
+}
+
+.detail-page .policy-meta p {
+  margin: 0;
+  color: var(--home-muted);
+}
+
+.detail-page .policy-meta strong {
+  color: var(--home-ink);
+}
+
+.detail-page .policy-content {
+  color: var(--home-ink);
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.82;
+}
+
+.detail-page .policy-content h1,
+.detail-page .policy-content h2,
+.detail-page .policy-content h3,
+.detail-page .policy-content h4 {
+  max-width: 760px;
+  margin: 2.2em 0 0.7em;
+  color: var(--home-ink);
+  font-family: inherit;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.detail-page .policy-content h1::before {
+  display: none;
+}
+
+.detail-page .policy-content h1,
+.detail-page .policy-content h2 {
+  font-size: clamp(32px, 4.5vw, 52px);
+}
+
+.detail-page .policy-content h3 {
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.detail-page .policy-content p,
+.detail-page .policy-content li {
+  color: var(--home-muted);
+}
+
+.detail-page .policy-content strong {
+  color: var(--home-ink);
+}
+
+.detail-page .policy-content a,
+.detail-page main a:not(.home-contact-link) {
+  color: var(--home-blue);
+  text-underline-offset: 3px;
+}
+
+.detail-page .policy-content ul,
+.detail-page .policy-content ol {
+  padding-left: 1.4em;
+}
+
+.detail-page .policy-content blockquote {
+  margin: 2em 0;
+  padding: 18px 24px;
+  border-left: 4px solid var(--home-orange);
+  border-radius: 0 16px 16px 0;
+  background: var(--home-paper-strong);
+}
+
+.detail-page .policy-content table {
+  width: 100%;
+  margin: 2em 0;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--home-line);
+  border-radius: 16px;
+}
+
+.detail-page .policy-content th,
+.detail-page .policy-content td {
+  padding: 14px 16px;
+  border: 1px solid var(--home-line);
+  text-align: left;
+}
+
+.detail-page .policy-content th {
+  background: var(--home-paper-strong);
+}
+
+.detail-page .support .subtitle,
+.detail-page .account-deletion .subtitle {
+  max-width: 720px;
+  margin: -56px 0 64px;
+  color: var(--home-muted);
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.6;
+}
+
+.detail-page .support .section,
+.detail-page .content-card {
+  margin-bottom: 18px;
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.detail-page .support .section h2,
+.detail-page .content-card h2 {
+  margin: 0 0 18px;
+  color: var(--home-ink);
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.detail-page .support .section h3,
+.detail-page .content-card h3 {
+  color: var(--home-ink);
+}
+
+.detail-page .support .section p,
+.detail-page .support .section li,
+.detail-page .content-card p,
+.detail-page .content-card li {
+  color: var(--home-muted);
+  line-height: 1.75;
+}
+
+.detail-page .steps,
+.detail-page .features-grid,
+.detail-page .methods-grid,
+.detail-page .faq-list {
+  gap: 16px;
+}
+
+.detail-page input,
+.detail-page textarea,
+.detail-page select {
+  width: 100%;
+  border: 1px solid var(--home-line);
+  border-radius: 14px;
+  color: var(--home-ink);
+  background: var(--home-paper);
+}
+
+.detail-page button:not(.home-theme-toggle) {
+  border-radius: 999px;
+}
+
+.detail-page .text-gray-600,
+.detail-page .text-gray-700,
+.detail-page .text-gray-800 {
+  color: var(--home-muted);
+}
+
+.detail-page .bg-gray-50,
+.detail-page .bg-gray-100 {
+  background: var(--home-paper-strong);
+}
+
+.detail-page .border-gray-200,
+.detail-page .border-gray-300 {
+  border-color: var(--home-line);
+}
+
+html[data-theme="dark"] .detail-page img:not(.home-wordmark img) {
+  filter: brightness(0.92);
+}
+
+@media (max-width: 760px) {
+  .detail-page main {
+    padding-top: 58px;
+  }
+
+  .detail-page main > section {
+    padding-top: 72px;
+  }
+
+  .detail-page main > section > .container,
+  .detail-page .content-wrapper {
+    width: min(100% - 32px, 980px);
+  }
+
+  .detail-page main h1 {
+    margin-bottom: 46px;
+    font-size: clamp(44px, 14vw, 70px);
+  }
+
+  .detail-page .policy-meta {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .detail-page .support .subtitle,
+  .detail-page .account-deletion .subtitle {
+    margin-top: -24px;
+  }
+
+  .detail-page .policy-content table {
+    display: block;
+    overflow-x: auto;
+  }
+}

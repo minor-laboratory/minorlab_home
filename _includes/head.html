@@ -40,8 +40,24 @@
   <link rel="icon" type="image/png" sizes="512x512" href="{{ '/assets/images/favicon_512x512.png' | relative_url }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/favicon_180x180.png' | relative_url }}">
 
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("theme");
+        var systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", savedTheme === "dark" || savedTheme === "light" ? savedTheme : systemTheme);
+      } catch (error) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    }());
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/home.css' | relative_url }}">
+  {%- unless page.body_class == 'homepage' -%}
+  <link rel="stylesheet" href="{{ '/assets/css/detail.css' | relative_url }}">
+  {%- endunless -%}
 
   <!-- Language alternates -->
   {%- for lang in site.languages -%}
