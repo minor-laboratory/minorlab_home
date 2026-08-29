@@ -84,4 +84,12 @@ class HomepageTest < Minitest::Test
     assert_includes javascript, "BookLab"
     assert_includes javascript, "UpNow"
   end
+
+  def test_google_analytics_is_configurable
+    assert_includes source("_config.yml"), "google_analytics_measurement_id"
+    head = source("_includes/head.html")
+    assert_includes head, "site.google_analytics_measurement_id"
+    assert_includes head, "googletagmanager.com/gtag/js"
+    assert_includes head, "gtag('config'"
+  end
 end

@@ -72,6 +72,7 @@ defaults:
 # Site data
 email: support@minorlab.com
 contact_email: hello@minorlab.com
+google_analytics_measurement_id: "G-79ENMF1RT8"
 company_name: MinorLab
 tagline:
   ko: "습관이 지금의 나를 만듭니다"
