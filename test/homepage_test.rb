@@ -92,4 +92,17 @@ class HomepageTest < Minitest::Test
     assert_includes head, "googletagmanager.com/gtag/js"
     assert_includes head, "gtag('config'"
   end
+
+  def test_home_metadata_uses_production_canonical_and_social_image
+    html = built_page("index.html")
+
+    assert_equal 1, html.scan('<meta property="og:title"').length
+    assert_includes html, '<meta property="og:title" content="MinorLab">'
+    assert_includes html, '<meta property="og:url" content="https://minorlab.com/">'
+    assert_includes html, '<link rel="canonical" href="https://minorlab.com/">'
+    assert_includes html, '<meta property="og:image" content="https://minorlab.com/assets/images/logo_square.png">'
+    assert_includes html, '<meta name="twitter:image" content="https://minorlab.com/assets/images/logo_square.png">'
+    assert_includes html, '<meta property="og:locale" content="ko_KR">'
+    assert_includes html, '<link rel="alternate" hreflang="en" href="https://minorlab.com/en/">'
+  end
 end
