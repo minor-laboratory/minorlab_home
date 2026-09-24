@@ -1,0 +1,30 @@
+{%- assign is_privacy = page.policy_type == 'privacy' -%}
+<section class="privacy-policy" data-policy-page data-policy-type="{{ page.policy_type }}" data-policy-target="sleep">
+  <div class="container">
+    <h1 data-policy-title>{{ page.heading }}</h1>
+
+    <div data-policy-loading class="text-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-4 text-gray-600" data-loading-label>문서를 불러오는 중...</p>
+    </div>
+
+    <div data-policy-content class="hidden">
+      <div class="policy-meta">
+        <p><strong data-updated-label>최종 수정일</strong>: <span data-policy-updated></span></p>
+        <p><strong data-effective-label>시행일</strong>: <span data-policy-effective></span></p>
+      </div>
+      <div data-policy-body class="policy-content mt-6"></div>
+    </div>
+
+    <div data-policy-error class="hidden">
+      <div class="text-center py-12">
+        <div class="text-red-600">
+          <h2 class="text-lg font-medium" data-error-title>문서를 불러올 수 없습니다</h2>
+          <p class="mt-2 text-gray-600" data-error-description>잠시 후 다시 시도해 주세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ '/assets/js/app-policy.js' | relative_url }}" defer></script>
