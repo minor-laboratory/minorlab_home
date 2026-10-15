@@ -1,5 +1,5 @@
 {%- assign is_privacy = page.policy_type == 'privacy' -%}
-<section class="privacy-policy" data-policy-page data-policy-type="{{ page.policy_type }}" data-policy-target="sleep">
+<section class="privacy-policy" data-policy-page data-policy-type="{{ page.policy_type }}" data-policy-target="{{ page.policy_target | default: 'sleep' }}">
   <div class="container">
     <h1 data-policy-title>{{ page.heading }}</h1>
 

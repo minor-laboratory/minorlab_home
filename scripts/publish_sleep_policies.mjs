@@ -8,8 +8,13 @@ if (!supabaseUrl || !serviceRoleKey) {
   throw new Error('PUBLIC_SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY가 필요합니다.');
 }
 
-const sourceRoot = resolve(process.argv[2] || '../sleep/docs/legal');
-const effectiveAt = '2026-09-24';
+const target = process.argv[3] || 'sleep';
+if (!['sleep', 'move'].includes(target)) {
+  throw new Error('지원하지 않는 정책 대상입니다.');
+}
+const sourceRoot = resolve(process.argv[2] || `../${target}/docs/legal`);
+const appName = target === 'move' ? 'Mera Move' : 'Mera Sleep';
+const effectiveAt = target === 'move' ? '2026-10-15' : '2026-09-24';
 
 function escapeHtml(value) {
   return value
@@ -97,8 +102,8 @@ async function request(path, options = {}) {
   return body ? JSON.parse(body) : null;
 }
 
-async function ensureSleepTarget() {
-  const existing = await request('enums?type=eq.target&value=eq.sleep&select=id');
+async function ensureTarget() {
+  const existing = await request(`enums?type=eq.target&value=eq.${target}&select=id`);
   if (existing.length) return;
 
   const types = await request('enum_types?type_name=eq.target&select=id&limit=1');
@@ -109,9 +114,9 @@ async function ensureSleepTarget() {
     headers: { Prefer: 'return=minimal' },
     body: JSON.stringify({
       type_id: types[0].id,
-      value: 'sleep',
-      label: 'Mera Sleep',
-      description: 'Mera Sleep 앱',
+      value: target,
+      label: appName,
+      description: `${appName} 앱`,
       sort_order: 90,
       is_active: true
     })
@@ -122,7 +127,7 @@ async function publishPolicy(policy) {
   const query = new URLSearchParams({
     type: `eq.${policy.type}`,
     country: `eq.${policy.country}`,
-    target: 'cs.{sleep}',
+    target: `cs.{${target}}`,
     version: `eq.${policy.version}`,
     select: 'id'
   });
@@ -149,13 +154,13 @@ async function main() {
   const privacy = splitLanguages(await readFile(resolve(sourceRoot, 'privacy-policy.md'), 'utf8'));
   const terms = splitLanguages(await readFile(resolve(sourceRoot, 'terms-of-use.md'), 'utf8'));
 
-  await ensureSleepTarget();
+  await ensureTarget();
 
   const definitions = [
-    { type: 'privacy', country: 'KR', title: 'Mera Sleep 개인정보처리방침', content: privacy.KR },
-    { type: 'privacy', country: 'US', title: 'Mera Sleep Privacy Policy', content: privacy.US },
-    { type: 'terms', country: 'KR', title: 'Mera Sleep 이용약관', content: terms.KR },
-    { type: 'terms', country: 'US', title: 'Mera Sleep Terms of Use', content: terms.US }
+    { type: 'privacy', country: 'KR', title: `${appName} 개인정보처리방침`, content: privacy.KR },
+    { type: 'privacy', country: 'US', title: `${appName} Privacy Policy`, content: privacy.US },
+    { type: 'terms', country: 'KR', title: `${appName} 이용약관`, content: terms.KR },
+    { type: 'terms', country: 'US', title: `${appName} Terms of Use`, content: terms.US }
   ];
 
   for (const definition of definitions) {
@@ -166,8 +171,8 @@ async function main() {
       content_format: 'html',
       announced_at: effectiveAt,
       effective_at: effectiveAt,
-      target: ['sleep'],
-      target_clients: ['sleep'],
+      target: [target],
+      target_clients: [target],
       platform: ['ios', 'android'],
       is_active: true
     };
@@ -177,6 +182,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('Sleep 정책 게시 실패:', error.message);
+  console.error(`${appName} 정책 게시 실패:`, error.message);
   process.exitCode = 1;
 });

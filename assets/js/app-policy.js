@@ -71,9 +71,13 @@
   async function loadPolicy() {
     const language = locale();
     const country = language === 'ko' ? 'KR' : 'US';
+    const target = page.dataset.policyTarget;
+    if (!['sleep', 'move'].includes(target)) {
+      throw new Error('지원하지 않는 정책 대상입니다.');
+    }
     const params = new URLSearchParams({
       type: `eq.${page.dataset.policyType}`,
-      target: 'cs.{sleep}',
+      target: `cs.{${target}}`,
       country: `eq.${country}`,
       is_active: 'eq.true',
       effective_at: `lte.${new Date().toISOString().slice(0, 10)}`,
@@ -93,7 +97,7 @@
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const policies = await response.json();
-    if (!policies.length) throw new Error('활성화된 Sleep 정책 문서가 없습니다.');
+    if (!policies.length) throw new Error(`활성화된 ${target} 정책 문서가 없습니다.`);
     render(policies[0], language);
   }
 
