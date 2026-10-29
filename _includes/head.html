@@ -3,6 +3,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- 기존 메일이 홈페이지로 전달한 복구 결과를 분석 스크립트 실행 전에 이동한다. -->
+  <script>
+    (() => {
+      const hash = new URLSearchParams(window.location.hash.slice(1));
+      const query = new URLSearchParams(window.location.search);
+      if (hash.get('type') === 'recovery' || hash.has('error') || query.has('error')) {
+        window.location.replace('/reset-password/' + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+
   {%- if site.google_analytics_measurement_id and site.google_analytics_measurement_id != '' -%}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics_measurement_id }}"></script>
   <script>
