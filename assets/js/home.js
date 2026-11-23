@@ -79,7 +79,7 @@
     kicker.append(category, status);
 
     const title = document.createElement("h3");
-    title.textContent = app.name || "MinorLab App";
+    title.textContent = copy?.name || app.name || "MinorLab";
     const description = document.createElement("p");
     description.textContent = copy?.description || app.description || "";
 
@@ -89,6 +89,13 @@
     addStoreLink(links, app.macos_url, "macOS");
     addStoreLink(links, app.android_url, "Android");
     addStoreLink(links, app.web_url, "Web");
+
+    if (copy?.support) {
+      const support = document.createElement("a");
+      support.href = copy.support;
+      support.textContent = appsSection.dataset.supportLabel;
+      links.appendChild(support);
+    }
 
     project.append(kicker, title, description, links);
     if (app.icon_url) {
@@ -134,6 +141,6 @@
     }
   }
 
-  // Static fallback cards keep BookLab and UpNow visible if the API is unavailable.
+  // Static fallback cards keep Mera Books and UpNow visible if the API is unavailable.
   loadApps();
 }());

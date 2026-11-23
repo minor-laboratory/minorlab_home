@@ -278,6 +278,17 @@ html[data-theme="dark"] .home-theme-moon {
 
 .home-hero-bottom {
   align-self: end;
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+}
+
+.home-hero-bottom > p {
+  max-width: 32rem;
+  margin: 0;
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.55;
+  word-break: keep-all;
 }
 
 .home-scroll-cue {

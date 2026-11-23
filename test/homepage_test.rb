@@ -81,8 +81,8 @@ class HomepageTest < Minitest::Test
     assert_includes css, "prefers-reduced-motion"
     assert_includes javascript, "IntersectionObserver"
     assert_includes javascript, 'localStorage.setItem("theme"'
-    assert_includes javascript, "BookLab"
-    assert_includes javascript, "UpNow"
+    assert_includes built_page("index.html"), "메라 북스"
+    assert_includes built_page("en/index.html"), "UpNow"
   end
 
   def test_google_analytics_is_configurable

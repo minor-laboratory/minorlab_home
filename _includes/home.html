@@ -12,6 +12,7 @@
     </h1>
   </div>
   <div class="home-hero-bottom">
+    <p>{{ t.home.intro }}</p>
     <a class="home-scroll-cue" href="#apps">
       <span aria-hidden="true">↓</span>{{ t.home.scroll }}
     </a>
@@ -23,6 +24,7 @@
   id="apps"
   data-apps-endpoint="{{ site.supabase.url }}/rest/v1/family_apps?is_active=eq.true&amp;order=sort_order.asc,name.asc"
   data-project-copy="{{ t.home.project_copy | jsonify | escape }}"
+  data-support-label="{{ t.home.learn_more | escape }}"
   data-live-label="{{ t.home.live | escape }}"
   data-apps-key="{{ site.supabase.anon_key }}"
 >
@@ -32,32 +34,24 @@
   <div class="home-projects" id="apps-content">
     <article class="home-project home-project--book" data-reveal>
       <div class="home-project-kicker">
-        <span>{{ t.home.book_kicker }}</span><span>{{ t.home.live }}</span>
+        <span>{{ t.home.project_copy.books.category }}</span><span>{{ t.home.live }}</span>
       </div>
-      <h3>BookLab</h3>
-      <p>{{ t.home.book_description }}</p>
+      <h3>{{ t.home.project_copy.books.name }}</h3>
+      <p>{{ t.home.project_copy.books.description }}</p>
       <div class="home-project-links">
-        {%- if page.lang == 'en' -%}
-        <a href="{{ '/en/booklab/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
-        {%- else -%}
-        <a href="{{ '/booklab/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
-        {%- endif -%}
+        <a href="{{ t.home.project_copy.books.support | relative_url }}">{{ t.home.learn_more }}</a>
       </div>
       <div class="home-book-visual" aria-hidden="true"></div>
     </article>
 
     <article class="home-project home-project--up" data-reveal>
       <div class="home-project-kicker">
-        <span>{{ t.home.up_kicker }}</span><span>{{ t.home.live }}</span>
+        <span>{{ t.home.project_copy.upnow.category }}</span><span>{{ t.home.live }}</span>
       </div>
-      <h3>UpNow</h3>
-      <p>{{ t.home.up_description }}</p>
+      <h3>{{ t.home.project_copy.upnow.name }}</h3>
+      <p>{{ t.home.project_copy.upnow.description }}</p>
       <div class="home-project-links">
-        {%- if page.lang == 'en' -%}
-        <a href="{{ '/en/upnow/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
-        {%- else -%}
-        <a href="{{ '/upnow/support' | relative_url }}">{{ t.home.learn_more }} <span aria-hidden="true">↗</span></a>
-        {%- endif -%}
+        <a href="{{ t.home.project_copy.upnow.support | relative_url }}">{{ t.home.learn_more }}</a>
       </div>
       <div class="home-up-visual" aria-hidden="true">↑</div>
     </article>
