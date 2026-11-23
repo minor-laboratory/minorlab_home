@@ -60,7 +60,7 @@ class DetailPagesTest < Minitest::Test
     end
 
     script = File.read(File.join(ROOT, "assets/js/app-policy.js"))
-    assert_includes script, "target: 'cs.{sleep}'"
+    assert_includes script, 'target: `cs.{${target}}`'
     assert_includes script, "country: `eq.${country}`"
     assert_includes script, "window.location.pathname}?lang=${nextLanguage}"
   end

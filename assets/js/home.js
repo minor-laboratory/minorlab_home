@@ -65,22 +65,23 @@
     container.appendChild(link);
   }
 
-  function createProject(app, index) {
+  function createProject(app, index, projectCopy) {
+    const copy = projectCopy[app.target];
     const project = document.createElement("article");
     project.className = `home-project ${index % 2 === 0 ? "home-project--book" : "home-project--up"} is-visible`;
 
     const kicker = document.createElement("div");
     kicker.className = "home-project-kicker";
     const category = document.createElement("span");
-    category.textContent = app.target || "MinorLab product";
+    category.textContent = copy?.category || "";
     const status = document.createElement("span");
-    status.textContent = "Live";
+    status.textContent = appsSection.dataset.liveLabel;
     kicker.append(category, status);
 
     const title = document.createElement("h3");
     title.textContent = app.name || "MinorLab App";
     const description = document.createElement("p");
-    description.textContent = app.description || "A thoughtful tool for everyday life.";
+    description.textContent = copy?.description || app.description || "";
 
     const links = document.createElement("div");
     links.className = "home-project-links";
@@ -123,7 +124,8 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const apps = await response.json();
       if (!Array.isArray(apps) || apps.length === 0) return;
-      appsContainer.replaceChildren(...apps.map(createProject));
+      const projectCopy = JSON.parse(appsSection.dataset.projectCopy);
+      appsContainer.replaceChildren(...apps.map((app, index) => createProject(app, index, projectCopy)));
       appsContainer.dataset.source = "supabase";
     } catch (_error) {
       appsContainer.dataset.source = "fallback";

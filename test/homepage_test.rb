@@ -25,7 +25,7 @@ class HomepageTest < Minitest::Test
     html = built_page("en/index.html")
 
     assert_includes html, '<html lang="en">'
-    assert_includes html, "We notice the small moments"
+    assert_includes html, "Contact MinorLab"
     assert_includes html, 'href="/"'
     assert_includes html, 'id="apps-content"'
   end

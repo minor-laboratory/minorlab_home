@@ -31,7 +31,7 @@
 </head>
 <body>
   <!-- Standalone: No header, no footer, no navigation -->
-  <main aria-label="Content">
+  <main aria-label="{% if page.lang == 'en' %}Content{% else %}본문{% endif %}">
     {{ content }}
   </main>
 

@@ -51,6 +51,8 @@
   class="home-work"
   id="apps"
   data-apps-endpoint="{{ site.supabase.url }}/rest/v1/family_apps?is_active=eq.true&amp;order=sort_order.asc,name.asc"
+  data-project-copy="{{ t.home.project_copy | jsonify | escape }}"
+  data-live-label="{{ t.home.live | escape }}"
   data-apps-key="{{ site.supabase.anon_key }}"
 >
   <div class="home-work-header">
@@ -98,8 +100,7 @@
 </section>
 
 <section class="home-manifesto" id="contact">
-  <p data-reveal>{{ t.home.manifesto_label }}</p>
-  <h2 data-reveal>{{ t.home.manifesto_before }}<br><em>{{ t.home.manifesto_emphasis }}</em>{{ t.home.manifesto_after }}</h2>
+  <h2 data-reveal><em>{{ t.home.manifesto_emphasis }}</em></h2>
   {%- assign contact_subject = 'MinorLab 문의' -%}
   {%- if page.lang == 'en' -%}
     {%- assign contact_subject = 'MinorLab inquiry' -%}

@@ -9,7 +9,7 @@
       const hash = new URLSearchParams(window.location.hash.slice(1));
       const query = new URLSearchParams(window.location.search);
       if (hash.get('type') === 'recovery' || hash.has('error') || query.has('error')) {
-        window.location.replace('/reset-password/' + window.location.search + window.location.hash);
+        window.location.replace('{% if page.lang == 'en' %}/en{% endif %}/reset-password/' + window.location.search + window.location.hash);
       }
     })();
   </script>

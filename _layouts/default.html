@@ -4,7 +4,7 @@
 <body class="{{ page.body_class | default: 'detail-page' }}">
   {%- include header.html -%}
 
-  <main aria-label="Content">
+  <main aria-label="{% if page.lang == 'en' %}Content{% else %}본문{% endif %}">
     {{ content }}
   </main>
 

@@ -2,7 +2,7 @@
 layout: default
 lang: en
 title: "Privacy Policy"
-description: "MinorLab Privacy Policy - BookLab app data processing policy"
+description: "Privacy policy for MinorLab services"
 ---
 
 {%- assign t = site.data.translations[page.lang] -%}
@@ -45,7 +45,7 @@ description: "MinorLab Privacy Policy - BookLab app data processing policy"
 // 정책 캐싱 시스템
 class PolicyCache {
   constructor() {
-    this.CACHE_PREFIX = 'minorlab_policy_';
+    this.CACHE_PREFIX = 'minorlab_policy_all_';
     this.CACHE_DURATION = 24 * 60 * 60 * 1000; // 24시간
     this.SUPABASE_URL = 'https://rfgljhekqxphguooidjj.supabase.co';
     this.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmZ2xqaGVrcXhwaGd1b29pZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1Njc0NjEsImV4cCI6MjA1MjE0MzQ2MX0.UdPVYMMF4vk8_rX634AzyWiSt4CYa05n3cPNaEPqt4I';
@@ -105,7 +105,7 @@ class PolicyCache {
 
   // 서버에서 정책 로드
   async loadFromServer(type, country) {
-    const response = await fetch(`${this.SUPABASE_URL}/rest/v1/policies?type=eq.${type}&country=eq.${country}&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
+    const response = await fetch(`${this.SUPABASE_URL}/rest/v1/policies?type=eq.${type}&country=eq.${country}&target=cs.%7Ball%7D&is_active=eq.true&effective_at=lte.${new Date().toISOString().split('T')[0]}&order=effective_at.desc,created_at.desc&limit=1`, {
       headers: {
         'apikey': this.SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${this.SUPABASE_ANON_KEY}`,
@@ -156,7 +156,7 @@ class PolicyCache {
         this.saveToCache(type, country, latestPolicy);
 
         // UI 업데이트 (선택적)
-        this.updateUI(latestPolicy, type);
+        this.updateUI(latestPolicy);
       }
     } catch (e) {
       console.warn('백그라운드 업데이트 확인 실패:', e);
