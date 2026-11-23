@@ -329,6 +329,7 @@ html[data-theme="dark"] .home-theme-moon {
 }
 
 .home-work {
+  scroll-margin-top: 76px;
   padding: 100px var(--home-gutter) 130px;
   border-radius: 38px 38px 0 0;
   color: #f3f1e9;
