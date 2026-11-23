@@ -39,7 +39,7 @@ ko:
       upnow:
         category: "스트레칭 알림"
         description: "설정한 간격마다 스트레칭을 안내합니다. 화면 잠금과 운동 영상도 이용할 수 있습니다."
-    intro: "MinorLab은 독서와 생활 습관을 기록하고, 잠들거나 몸을 움직일 때 쓸 수 있는 앱을 만듭니다."
+    intro: "메라 북스에는 읽은 책과 메모를 남길 수 있습니다. 업나우는 스트레칭할 시간을 알려 줍니다."
     marquee_label: "MinorLab 핵심 가치"
     marquee: "Habits shape you"
     marquee_2: "독서와 습관 기록"
@@ -56,7 +56,6 @@ ko:
     work_label: "02 / 우리가 만든 것"
     work_title_line_1: "Made at"
     work_title_line_2: "MinorLab."
-    work_note: "독서 기록부터 수면과 움직임까지, MinorLab이 만든 앱을 소개합니다."
     book_kicker: "독서 기록"
     book_description: "읽은 책과 메모를 한곳에 기록할 수 있습니다."
     up_kicker: "스트레칭 알림"
@@ -327,7 +326,7 @@ en:
       upnow:
         category: "Stretch reminders"
         description: "Get stretch reminders at intervals you choose. You can also lock the screen during breaks and watch workout videos."
-    intro: "MinorLab makes apps for tracking your reading and habits, winding down before bed, and taking movement breaks."
+    intro: "Save the books you’ve read and your notes in Mera Books. UpNow reminds you when it’s time to stretch."
     marquee_label: "MinorLab values"
     marquee: "Habits shape you"
     marquee_2: "Reading and habit tracking"
@@ -344,7 +343,6 @@ en:
     work_label: "02 / Selected work"
     work_title_line_1: "Made at"
     work_title_line_2: "MinorLab."
-    work_note: "Explore our apps for reading, habits, sleep, and movement."
     book_kicker: "Reading journal"
     book_description: "Keep track of the books you read and save your notes in one place."
     up_kicker: "Stretch reminders"
