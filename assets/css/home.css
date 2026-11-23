@@ -2,7 +2,6 @@
   --home-ink: #11120f;
   --home-paper: #f3f1e9;
   --home-paper-strong: #e8e5da;
-  --home-blue: #245bb5;
   --home-cyan: #18b7dc;
   --home-orange: #ff6b21;
   --home-yellow: #ffc63b;
@@ -17,7 +16,6 @@ html[data-theme="dark"] {
   --home-ink: #f3f1e9;
   --home-paper: #10110f;
   --home-paper-strong: #1b1c19;
-  --home-blue: #6f9ee9;
   --home-cyan: #45c6e5;
   --home-orange: #ff7d3d;
   --home-yellow: #e9b945;
@@ -280,18 +278,6 @@ html[data-theme="dark"] .home-theme-moon {
 
 .home-hero-bottom {
   align-self: end;
-  display: grid;
-  grid-template-columns: 1fr minmax(280px, 410px);
-  align-items: end;
-  gap: 40px;
-}
-
-.home-hero-bottom > p {
-  margin: 0;
-  color: var(--home-ink);
-  font-size: clamp(17px, 1.6vw, 23px);
-  line-height: 1.55;
-  letter-spacing: -0.025em;
 }
 
 .home-scroll-cue {
@@ -331,106 +317,6 @@ html[data-theme="dark"] .home-theme-moon {
   animation: home-float 6s ease-in-out infinite;
 }
 
-.home-marquee {
-  overflow: hidden;
-  padding: 18px 0;
-  color: var(--home-paper);
-  background: var(--home-ink);
-  transform: rotate(-1.2deg) scale(1.02);
-  transform-origin: center;
-}
-
-.home-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: home-marquee 24s linear infinite;
-}
-
-.home-marquee span {
-  padding-right: 32px;
-  font-size: 15px;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.home-marquee b {
-  color: var(--home-lime);
-}
-
-.home-belief {
-  padding: clamp(110px, 17vw, 260px) var(--home-gutter);
-}
-
-.home-section-grid {
-  display: grid;
-  grid-template-columns: minmax(170px, 0.55fr) 1.8fr;
-  gap: 5vw;
-}
-
-.home-section-index {
-  margin: 0;
-  color: inherit;
-  font-size: 12px;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.home-belief h2 {
-  max-width: 1030px;
-  margin: 0;
-  color: var(--home-ink);
-  font-size: clamp(43px, 7.4vw, 116px);
-  font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.065em;
-}
-
-.home-soft {
-  color: color-mix(in srgb, var(--home-ink) 30%, transparent);
-}
-
-.home-blue {
-  color: var(--home-blue);
-}
-
-.home-principles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 90px;
-  border-top: 1px solid var(--home-line);
-}
-
-.home-principle {
-  padding: 24px 32px 0 0;
-  border-right: 1px solid var(--home-line);
-}
-
-.home-principle + .home-principle {
-  padding-left: 32px;
-}
-
-.home-principle:last-child {
-  border-right: 0;
-}
-
-.home-principle strong {
-  display: block;
-  margin-bottom: 28px;
-  font-size: 42px;
-  letter-spacing: -0.05em;
-}
-
-.home-principle p {
-  max-width: 280px;
-  margin: 0;
-  color: var(--home-muted);
-  font-size: 15px;
-  line-height: 1.7;
-}
-
 .home-work {
   padding: 100px var(--home-gutter) 130px;
   border-radius: 38px 38px 0 0;
@@ -438,29 +324,14 @@ html[data-theme="dark"] .home-theme-moon {
   background: #11120f;
 }
 
-.home-work-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 64px;
-}
-
 .home-work h2 {
-  margin: 15px 0 0;
+  margin: 0 0 64px;
   color: #f3f1e9;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(62px, 10vw, 150px);
   font-weight: 400;
   line-height: 0.8;
   letter-spacing: -0.07em;
-}
-
-.home-work-note {
-  max-width: 340px;
-  margin: 0;
-  color: rgba(243, 241, 233, 0.62);
-  line-height: 1.6;
 }
 
 .home-apps-status {
@@ -745,10 +616,6 @@ html[data-theme="dark"] .home-theme-moon {
   transform: translateY(0);
 }
 
-@keyframes home-marquee {
-  to { transform: translateX(-50%); }
-}
-
 @keyframes home-float {
   50% { transform: translateY(-18px) rotate(17deg); }
 }
@@ -794,47 +661,9 @@ html[data-theme="dark"] .home-theme-moon {
     width: 44vw;
   }
 
-  .home-hero-bottom {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
-
-  .home-scroll-cue {
-    order: 2;
-  }
-
-  .home-hero-bottom > p {
-    max-width: 72%;
-  }
-
-  .home-section-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .home-principles {
-    grid-template-columns: 1fr;
-    margin-top: 62px;
-  }
-
-  .home-principle,
-  .home-principle + .home-principle {
-    padding: 24px 0;
-    border-right: 0;
-    border-bottom: 1px solid var(--home-line);
-  }
-
   .home-work {
     padding-top: 80px;
     border-radius: 24px 24px 0 0;
-  }
-
-  .home-work-header {
-    display: block;
-  }
-
-  .home-work-note {
-    margin-top: 36px;
   }
 
   .home-projects {

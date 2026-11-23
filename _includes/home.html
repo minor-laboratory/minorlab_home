@@ -12,38 +12,9 @@
     </h1>
   </div>
   <div class="home-hero-bottom">
-    <a class="home-scroll-cue" href="#belief">
+    <a class="home-scroll-cue" href="#apps">
       <span aria-hidden="true">↓</span>{{ t.home.scroll }}
     </a>
-    <p>{{ t.home.intro }}</p>
-  </div>
-</section>
-
-<div class="home-marquee" aria-label="{{ t.home.marquee_label }}">
-  <div class="home-marquee-track">
-    <span>{{ t.home.marquee }} <b>✦</b> {{ t.home.marquee_2 }} <b>✦</b> {{ t.home.marquee_3 }} <b>✦</b>&nbsp;</span>
-    <span aria-hidden="true">{{ t.home.marquee }} <b>✦</b> {{ t.home.marquee_2 }} <b>✦</b> {{ t.home.marquee_3 }} <b>✦</b>&nbsp;</span>
-  </div>
-</div>
-
-<section class="home-belief" id="belief">
-  <div class="home-section-grid">
-    <p class="home-section-index" data-reveal>{{ t.home.belief_label }}</p>
-    <div>
-      <h2 data-reveal>
-        {{ t.home.belief_lead }}<br>
-        <span class="home-soft">{{ t.home.belief_soft }}</span><br>
-        <span class="home-blue">{{ t.home.belief_focus }}</span>{{ t.home.belief_tail }}
-      </h2>
-      <div class="home-principles">
-        {%- for principle in t.home.principles -%}
-        <article class="home-principle" data-reveal>
-          <strong>0{{ forloop.index }}</strong>
-          <p>{{ principle }}</p>
-        </article>
-        {%- endfor -%}
-      </div>
-    </div>
   </div>
 </section>
 
@@ -55,12 +26,7 @@
   data-live-label="{{ t.home.live | escape }}"
   data-apps-key="{{ site.supabase.anon_key }}"
 >
-  <div class="home-work-header">
-    <div data-reveal>
-      <p class="home-section-index">{{ t.home.work_label }}</p>
-      <h2>{{ t.home.work_title_line_1 }}<br>{{ t.home.work_title_line_2 }}</h2>
-    </div>
-  </div>
+  <h2 class="home-work-header" data-reveal>{{ t.nav.apps }}</h2>
 
   <p class="home-apps-status" id="apps-loading" aria-live="polite">{{ t.apps.loading }}</p>
   <div class="home-projects" id="apps-content">

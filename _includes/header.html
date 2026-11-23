@@ -20,12 +20,10 @@
 
   <nav class="home-nav" aria-label="{% if page.lang == 'en' %}Primary navigation{% else %}주요 메뉴{% endif %}">
     {%- if page.body_class == 'homepage' -%}
-    <a href="#belief">{{ t.home.belief_label | split: '/' | last | strip }}</a>
-    <a href="#apps">{{ t.home.work_label | split: '/' | last | strip }}</a>
+    <a href="#apps">{{ t.nav.apps }}</a>
     <a href="#contact">{{ t.nav.contact }}</a>
     {%- else -%}
-    <a href="{{ localized_home | relative_url }}#belief">{{ t.home.belief_label | split: '/' | last | strip }}</a>
-    <a href="{{ localized_home | relative_url }}#apps">{{ t.home.work_label | split: '/' | last | strip }}</a>
+    <a href="{{ localized_home | relative_url }}#apps">{{ t.nav.apps }}</a>
     <a href="{{ localized_home | relative_url }}#contact">{{ t.nav.contact }}</a>
     {%- endif -%}
   </nav>
